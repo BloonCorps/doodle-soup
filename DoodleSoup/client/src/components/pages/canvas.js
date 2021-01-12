@@ -93,17 +93,85 @@ class Canvas extends Component {
         this.setState({strokeSize : event.target.value})
     }
 
-    changeStrokeColor = (event) => {
-        this.setState({strokeColor : event.target.value})
+    // changeStrokeColor = (color) => {
+    //     console.log("this fuck up")
+    //     this.setState({strokeColor : color})
+    //     console.log("nah")
+    // }
+    changeRed = () => {
+        this.setState(
+            {strokeColor : "red"}
+        )
+    }
+    changeOrange = () => {
+        this.setState(
+            {strokeColor : "orange"}
+        )
+    }
+    changeYellow = () => {
+        this.setState(
+            {strokeColor : "yellow"}
+        )
+    }
+
+    changeGreen = () => {
+        this.setState(
+            {strokeColor : "green"}
+        )
+    }
+    changeBlue = () => {
+        this.setState(
+            {strokeColor : "blue"}
+        )
+    }
+    changePurple = () => {
+        this.setState(
+            {strokeColor : "purple"}
+        )
+    }
+    changePink = () => {
+        this.setState(
+            {strokeColor : "pink"}
+        )
+    }
+    changeBrown = () => {
+        this.setState(
+            {strokeColor : "brown"}
+        )
+    }
+    changeBlack = () => {
+        this.setState(
+            {strokeColor : "black"}
+        )
+    }
+    changeGrey = () => {
+        this.setState(
+            {strokeColor : "grey"}
+        )
+    }
+    changeWhite = () => {
+        this.setState(
+            {strokeColor : "white"}
+        )
     }
 
     render() {
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
-                <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                <input className="strokeColor" value={this.state.strokeColor} onChange={this.changeStrokeColor}/>
-                <button className="clearButton" onClick={this.clearAll}/>
+                {/* <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/> */}
+                <button className="color red" onClick={this.changeRed}></button>  
+                <button className="color orange" onClick={this.changeOrange}></button>  
+                <button className="color yellow" onClick={this.changeYellow}></button>  
+                <button className="color green" onClick={this.changeGreen}></button>  
+                <button className="color blue" onClick={this.changeBlue}></button>  
+                <button className="color purple" onClick={this.changePurple}></button>  
+                <button className="color pink" onClick={this.changePink}></button>  
+                <button className="color brown" onClick={this.changeBrown}></button>  
+                <button className="color black" onClick={this.changeBlack}></button>  
+                <button className="color grey" onClick={this.changeGrey}></button>  
+                <button className="color white" onClick={this.changeWhite}></button>  
+                <button className="clearButton" onClick={this.clearAll}> Clear </button>
             </div>
         )
     }
