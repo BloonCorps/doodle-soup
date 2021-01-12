@@ -5,15 +5,15 @@ import "./canvas.css"
 
 //const rect = canvas.getBoundingClientRect() <-Fix for positioning
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
-
+const RADIUSSHIFT = 10;
 class Canvas extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             drawing : false,
-            verticalShift : 108,
-            horizontalShift : 12,
+            verticalShift : 0,
+            horizontalShift : 0,
             strokeSize : 10,
             strokeColor : "Black",
             context : null,
@@ -28,6 +28,8 @@ class Canvas extends Component {
         myCanvas.width = window.innerWidth*0.75;
         myCanvas.height = window.innerHeight*0.75;
 
+        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT})
+        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT})
     };
 
     handleEvent = (event) => {
@@ -46,10 +48,13 @@ class Canvas extends Component {
         if (this.state.drawing === false) {
             return
         }
+
+        //Formatting
         this.state.context.lineWidth = this.state.strokeSize;
         this.state.context.strokeStyle = this.state.strokeColor;
         this.state.context.lineCap = "round";
 
+        //Draw
         this.state.context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
         this.state.context.stroke();
         this.state.context.beginPath();
@@ -59,10 +64,12 @@ class Canvas extends Component {
     startDrawing = (event) => {
         this.setState({drawing : true})
 
+        //Formatting
         this.state.context.lineWidth = this.state.strokeSize;
         this.state.context.strokeStyle = this.state.strokeColor;
         this.state.context.lineCap = "round";
 
+        //Make Dots
         this.state.context.beginPath();
         this.state.context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
         this.state.context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
@@ -70,6 +77,7 @@ class Canvas extends Component {
     }
 
     endDrawing = () => {
+        //Reset Lines
         this.state.context.beginPath();
         this.setState({drawing : false});
 
