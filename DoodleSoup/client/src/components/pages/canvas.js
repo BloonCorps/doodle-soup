@@ -101,11 +101,10 @@ class Canvas extends Component {
         this.setState({strokeSize : event.target.value})
     }
 
-    // changeStrokeColor = (color) => {
-    //     console.log("this fuck up")
-    //     this.setState({strokeColor : color})
-    //     console.log("nah")
-    // }
+    submitDrawing = () => {
+        //TODO
+    }
+
     changeRed = () => {
         this.setState(
             {strokeColor : "red"}
@@ -121,7 +120,6 @@ class Canvas extends Component {
             {strokeColor : "yellow"}
         )
     }
-
     changeGreen = () => {
         this.setState(
             {strokeColor : "green"}
@@ -180,6 +178,7 @@ class Canvas extends Component {
                 <button className="color grey" onClick={this.changeGrey}></button>  
                 <button className="color white" onClick={this.changeWhite}></button>  
                 <button className="clearButton" onClick={this.clearAll}> Clear </button>
+                <button className="submitButton" onClick={this.submitDrawing}> Submit </button>
             </div>
         )
     }
