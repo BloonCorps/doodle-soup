@@ -4,6 +4,7 @@
     display: grid;
     border: 10px solid black;
     background-color:white;
+    margin: auto;
 }
 
 .color {
