@@ -25,12 +25,21 @@ class Canvas extends Component {
         let myCanvas = document.querySelector('.canvas');
         this.setState({context : myCanvas.getContext("2d")});
 
-        myCanvas.width = window.innerWidth*0.75;
-        myCanvas.height = window.innerHeight*0.75;
+        myCanvas.width = 1000;
+        myCanvas.height = 600;
 
-        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT})
-        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT})
+        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
+        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
+
+        window.addEventListener("resize", this.recalibrate);
     };
+
+    recalibrate = () => {
+        console.log("Kill me")
+        let myCanvas = document.querySelector('.canvas');
+        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
+        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
+    }
 
     handleEvent = (event) => {
         if (event.type === "mousedown") {
