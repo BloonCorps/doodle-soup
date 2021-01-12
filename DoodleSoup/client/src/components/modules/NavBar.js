@@ -22,6 +22,9 @@ class NavBar extends Component {
           <Link to="/create/" className="navButton">
             Create
           </Link>
+          <Link to="/account/" className="navButton">
+            Account
+          </Link>
         </div>
       </nav>
     );

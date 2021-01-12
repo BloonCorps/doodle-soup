@@ -35,7 +35,6 @@ class Canvas extends Component {
     };
 
     recalibrate = () => {
-        console.log("Kill me")
         let myCanvas = document.querySelector('.canvas');
         this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
         this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
@@ -168,7 +167,7 @@ class Canvas extends Component {
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
-                {/* <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/> */}
+                <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
                 <button className="color red" onClick={this.changeRed}></button>  
                 <button className="color orange" onClick={this.changeOrange}></button>  
                 <button className="color yellow" onClick={this.changeYellow}></button>  
