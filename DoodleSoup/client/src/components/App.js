@@ -4,6 +4,9 @@ import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import NavBar from "./modules/NavBar.js";
 import Canvas from "./pages/canvas.js";
+import Title from "./pages/title.js";
+import Account from "./pages/account.js";
+
 
 import "../utilities.css";
 
@@ -52,13 +55,15 @@ class App extends Component {
       <NavBar />
         <Router>
           <Skeleton
-            path="/"
+            path="/feed/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
           <NotFound default />
           <Canvas path="/create/"/>
+          <Account path="/account/"/>
+          <Title path="/"/>
         </Router>
       </>
     );
