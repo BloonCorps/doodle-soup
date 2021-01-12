@@ -83,6 +83,12 @@ class Canvas extends Component {
 
     }
 
+    clearAll = () => {
+        let myCanvas = document.querySelector('.canvas');
+        console.log('clearing')
+        this.state.context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    }
+
     changeStrokeSize = (event) => {
         this.setState({strokeSize : event.target.value})
     }
@@ -97,6 +103,7 @@ class Canvas extends Component {
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
                 <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
                 <input className="strokeColor" value={this.state.strokeColor} onChange={this.changeStrokeColor}/>
+                <button className="clearButton" onClick={this.clearAll}/>
             </div>
         )
     }
