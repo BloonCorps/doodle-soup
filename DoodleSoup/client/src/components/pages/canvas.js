@@ -135,11 +135,10 @@ class Canvas extends Component {
         let myCanvas = document.querySelector('.canvas');
         this.state.context.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
+        this.recreatePaths()
         let temp = [...this.state.strokePaths]
         temp.pop()
         this.setState({strokePaths : temp})
-
-        this.recreatePaths()
     }
 
     recreatePaths = () => {
