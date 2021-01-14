@@ -5,7 +5,7 @@ import "./canvas.css"
 
 //const rect = canvas.getBoundingClientRect() <-Fix for positioning
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
-const RADIUSSHIFT = 10;
+const RADIUSSHIFT = 11;
 //test comment delete this plz
 class Canvas extends Component {
     constructor(props) {
@@ -13,13 +13,18 @@ class Canvas extends Component {
 
         this.state = {
             drawing : false,
+
             verticalShift : 0,
             horizontalShift : 0,
+
             strokeSize : 10,
             strokeColor : "Black",
             context : null,
+
             strokePaths : [],
             tempPoints : [],
+
+            filling : false,
         };
     };
 
@@ -44,15 +49,26 @@ class Canvas extends Component {
     }
 
     handleEvent = (event) => {
-        if (event.type === "mousedown") {
-            this.startDrawing(event);
-
-        } else if (event.type === "mouseup") {
-            this.endDrawing();
-
-        } else if (event.type === "mousemove") {
-            this.drawing(event);
+        if (this.state.filling == false) {
+            if (event.type === "mousedown") {
+                this.startDrawing(event);
+    
+            } else if (event.type === "mouseup") {
+                this.endDrawing();
+    
+            } else if (event.type === "mousemove") {
+                this.drawing(event);
+            }
         }
+        else {
+            if (event.type === "mousedown") {
+                this.startFilling(event);
+    
+            } else if (event.type === "mouseup") {
+                console.log('hi')
+            }
+        }
+        
     };
 
     drawing = (event) => {
@@ -168,59 +184,113 @@ class Canvas extends Component {
         };
     }  
 
+    commenceFill = () => {
+        this.setState({filling : true})
+    }
+
+    startFilling = (event) => {
+        let saveStrokeSize = this.state.strokeSize;
+
+        let newColor = this.state.strokeColor.match(/\d+/g)
+
+        let coords = {x: event.clientX  - this.state.horizontalShift, y: event.clientY - this.state.verticalShift}
+        let arrayIndex = ((coords.y * 1000 + coords.x) * 4) | 0;
+
+        let agenda = [arrayIndex];
+        let visited = new Set();
+        visited.add(arrayIndex)
+
+        let image = this.state.context.getImageData(0,0,1000,600)
+        let imageData = image.data;
+        let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2]]
+        while (agenda.length != 0) {
+            let currentPixel = agenda.shift()
+
+            this.colorPixel(imageData, currentPixel, newColor)
+            let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData)
+            for (let n = 0; n < neighbors.length; n++) {
+                agenda.push(n)
+                visited.add(n)
+            }
+        }
+        this.state.context.putImageData(image, 0, 0);
+    }
+
+    findNeighbors = (index, visited, colorCheck, imageData) => {
+        let contestants = [index - 4, index + 4, index + 4000, index - 4000]
+        let neighbors = []
+        for (let i = 0; i < 4; i++){
+            if (contestants[i] > -1 && contestants[i] < 2400000 && (visited.has(contestants[i]) === false)) {
+
+                let pixel = [imageData[contestants[i]], imageData[contestants[i] + 1], imageData[contestants[i] + 2]]
+
+                if (pixel.every((val, index) => val === colorCheck[index])) {
+                    neighbors.push(contestants[i])
+                }
+            }
+        }
+        return (neighbors)
+    }
+
+    colorPixel = (imageData, pixelPos, color) => {
+        for (let i = 0; i < 3; i++) {
+            imageData[pixelPos + i] = color[i]
+        }
+    }
+
     changeRed = () => {
         this.setState(
-            {strokeColor : "red"}
+            {strokeColor : "rgba(255, 0, 0, 1)"}
         )
     }
     changeOrange = () => {
         this.setState(
-            {strokeColor : "orange"}
+            {strokeColor : "rgba(255, 165, 0, 1)"}
         )
     }
     changeYellow = () => {
         this.setState(
-            {strokeColor : "yellow"}
+            {strokeColor : "rgba(255, 255, 0, 1)"}
         )
     }
     changeGreen = () => {
         this.setState(
-            {strokeColor : "green"}
+            {strokeColor : "rgba(0, 128, 0, 1)"}
         )
     }
     changeBlue = () => {
         this.setState(
-            {strokeColor : "blue"}
+            {strokeColor : "rgba(0, 0, 255, 1)"}
         )
     }
     changePurple = () => {
         this.setState(
-            {strokeColor : "purple"}
+            {strokeColor : "rgba(128, 0, 128, 1)"}
         )
     }
     changePink = () => {
         this.setState(
-            {strokeColor : "pink"}
+            {strokeColor : "rgba(255, 192, 203, 1)"}
         )
     }
     changeBrown = () => {
         this.setState(
-            {strokeColor : "brown"}
+            {strokeColor : "rgba(165, 42, 42, 1)"}
         )
     }
     changeBlack = () => {
         this.setState(
-            {strokeColor : "black"}
+            {strokeColor : "rgba(0, 0, 0, 1)"}
         )
     }
     changeGrey = () => {
         this.setState(
-            {strokeColor : "grey"}
+            {strokeColor : "rgba(128, 128, 128, 1)"}
         )
     }
     changeWhite = () => {
         this.setState(
-            {strokeColor : "white"}
+            {strokeColor : "rgba(255, 255, 255, 1)"}
         )
     }
 
@@ -243,6 +313,7 @@ class Canvas extends Component {
                 <button className="clearButton" onClick={this.clearAll}> Clear </button>
                 <button className="submitButton" onClick={this.submitDrawing}> Submit </button>
                 <button className="undoButton" onClick={this.undoStroke}> Undo </button>
+                <button className="fillButton" onClick={this.commenceFill}> Fill </button>
             </div>
         )
     }
