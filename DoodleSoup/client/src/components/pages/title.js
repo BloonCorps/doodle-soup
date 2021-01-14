@@ -1,14 +1,43 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./title.css"
+import GoogleLogin, { GoogleLogout } from "react-google-login";
+
+//TODO: REPLACE WITH YOUR OWN CLIENT_ID
+const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+
 
 class Title extends Component {
     constructor(props) {
         super(props);
+        // Initialize Default State
+    this.state = {};
     }
+
+    componentDidMount() {
+        // remember -- api calls go here!
+      }
+
+
     render () {
         return (
-            <div>sup</div>
+            <>
+            {this.props.userId ? (
+          <GoogleLogout
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Logout"
+            onLogoutSuccess={this.props.handleLogout}
+            onFailure={(err) => console.log(err)}
+          />
+        ) : (
+          <GoogleLogin
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={this.props.handleLogin}
+            onFailure={(err) => console.log(err)}
+          />
+        )}
+      </>
         )
     }
 }
