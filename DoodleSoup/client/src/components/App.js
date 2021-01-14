@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { Router, Location } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
+import Feed from "./pages/Feed.js";
 import NavBar from "./modules/NavBar.js";
 import Canvas from "./pages/canvas.js";
 import Title from "./pages/title.js";
@@ -52,18 +52,25 @@ class App extends Component {
   render() {
     return (
       <>
-      <NavBar />
+        <Location>
+          {locationProps => (
+             (locationProps.location.pathname === "/") ? null : (
+                <NavBar />
+             )
+          )}
+        </Location>
         <Router>
-          <Skeleton
-            path="/feed/"
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
-            userId={this.state.userId}
+          <Title path="/"
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout}
+          userId={this.state.userId}
           />
+          
           <NotFound default />
-          <Canvas path="/create/"/>
-          <Account path="/account/"/>
-          <Title path="/"/>
+          <Canvas path="/create/" />
+          <Account path="/account/" />
+          <Feed path="/feed/" />
+        
         </Router>
       </>
     );
