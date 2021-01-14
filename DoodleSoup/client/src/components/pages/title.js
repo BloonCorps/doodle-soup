@@ -3,8 +3,8 @@ import "../../utilities.css";
 import "./title.css"
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+//This below is the correct client ID
+const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
 
 
 class Title extends Component {
