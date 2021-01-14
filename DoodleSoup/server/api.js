@@ -6,7 +6,6 @@
 | This file defines the routes for your server.
 |
 */
-
 const express = require("express");
 
 // import models so we can interact with the database
@@ -23,6 +22,7 @@ const socketManager = require("./server-socket");
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
+
 router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
