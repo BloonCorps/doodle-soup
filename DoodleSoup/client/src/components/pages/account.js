@@ -8,7 +8,7 @@ class Account extends Component {
     }
     render () {
         return (
-            <div>Kill m3 now</div>
+            <div>{this.props.userId}</div>
         )
     }
 }
