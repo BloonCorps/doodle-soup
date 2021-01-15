@@ -165,7 +165,6 @@ class Canvas extends Component {
 
     recreatePaths = () => {
         // draw all the paths in the paths array
-        console.log(this.state.strokePaths)
         for(let stroke = 0; stroke < this.state.strokePaths.length - 1; stroke++) {
             if (this.state.strokePaths[stroke][0] === "FILLING") {
                 let newColor = this.state.strokePaths[stroke][2]
@@ -182,18 +181,14 @@ class Canvas extends Component {
                 let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2], imageData[arrayIndex + 3]]
                 while (agenda.length != 0) {
                     let currentPixel = agenda.pop()
-
-                    this.colorPixel(imageData, currentPixel, newColor)
-                    let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData)
-
-                    for (let n = 0; n < neighbors.length; n++) {
-                        agenda.push(neighbors[n])
-                        visited.add(neighbors[n])
-                    }
+        
+                    this.colorPixel(imageData, currentPixel, newColor);
+                    let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData);
+        
+                    let n = null;
+                    neighbors.forEach(n => agenda.push(n), visited.add(n))
                 }
                 context.putImageData(image, 0, 0);
-                //console.log(newColor, colorToChange, arrayIndex)
-                //console.log(imageData)
 
             } else {
                 //Formatting
@@ -206,7 +201,7 @@ class Canvas extends Component {
                 context.moveTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
                 context.lineTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
                 context.stroke();
-
+         
                 for(let coor = 1; coor < this.state.strokePaths[stroke].length; coor++) {
                     //Draw
                     context.lineTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
@@ -240,13 +235,11 @@ class Canvas extends Component {
         while (agenda.length != 0) {
             let currentPixel = agenda.pop()
 
-            this.colorPixel(imageData, currentPixel, newColor)
-            let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData)
+            this.colorPixel(imageData, currentPixel, newColor);
+            let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData);
 
-            for (let n = 0; n < neighbors.length; n++) {
-                agenda.push(neighbors[n])
-                visited.add(neighbors[n])
-            }
+            let n = null;
+            neighbors.forEach(n => agenda.push(n), visited.add(n))
         }
         context.putImageData(image, 0, 0);
         this.setState({tempPoints : ["FILLING", arrayIndex, newColor]});
@@ -254,18 +247,8 @@ class Canvas extends Component {
 
     findNeighbors = (index, visited, colorCheck, imageData) => {
         let contestants = [index - 4, index + 4, index + 4*CANVASWIDTH, index - 4*CANVASWIDTH]
-        let neighbors = []
-
-        for (let i = 0; i < contestants.length; i++) {
-            if (contestants[i] < CANVASWIDTH*CANVASHEIGHT*4 && contestants[i] > -1 && (visited.has(contestants[i])===false)) {
-
-                let pixel = [imageData[contestants[i]], imageData[contestants[i] + 1], imageData[contestants[i] + 2], imageData[contestants[i] + 3]]
-
-                if (pixel.every((val, i) => val === colorCheck[i])) {
-                    neighbors.push(contestants[i])
-                }
-            }
-        }
+        let bounds = contestants.filter(c => c < CANVASWIDTH*CANVASHEIGHT*4 && c > -1 && (visited.has(c)===false));
+        let neighbors = bounds.filter(b => imageData[b] === colorCheck[0] && imageData[b + 1] === colorCheck[1] && imageData[b + 2] === colorCheck[2] && imageData[b + 3] === colorCheck[3])
         return (neighbors)
     }
 
