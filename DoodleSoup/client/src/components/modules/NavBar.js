@@ -3,6 +3,9 @@ import { Link } from "@reach/router";
 
 import "./NavBar.css";
 
+import GoogleLogin, { GoogleLogout } from "react-google-login";
+const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
+
 /**
  * The navigation bar at the top of all pages. Takes no props.
  */
@@ -25,6 +28,7 @@ class NavBar extends Component {
           <Link to="/account/" className="navButton">
             Account
           </Link>
+          
         </div>
       </nav>
     );

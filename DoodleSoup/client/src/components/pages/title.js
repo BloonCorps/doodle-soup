@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./title.css"
+
+
+//This below is the correct client ID, Stuff for making login button
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
+const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
 
 class Title extends Component {
     constructor(props) {
@@ -17,7 +17,6 @@ class Title extends Component {
     componentDidMount() {
         // remember -- api calls go here!
       }
-
 
     render () {
         return (

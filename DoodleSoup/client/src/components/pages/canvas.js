@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./canvas.css"
 
+//UNDO FILL DOESNT WORK
+
+let CANVASWIDTH = 50;
+let CANVASHEIGHT = 50;
+let myCanvas = null;
+let context = null;
 
 //const rect = canvas.getBoundingClientRect() <-Fix for positioning
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
@@ -18,8 +24,7 @@ class Canvas extends Component {
             horizontalShift : 0,
 
             strokeSize : 10,
-            strokeColor : "Black",
-            context : null,
+            strokeColor : "rgba(0, 0, 0, 1)",
 
             strokePaths : [],
             tempPoints : [],
@@ -30,20 +35,20 @@ class Canvas extends Component {
 
     componentDidMount() {
         document.title = "Create!";
-        let myCanvas = document.querySelector('.canvas');
-        this.setState({context : myCanvas.getContext("2d")});
+        myCanvas = document.querySelector('.canvas');
+        context = myCanvas.getContext("2d");
 
-        myCanvas.width = 1000;
-        myCanvas.height = 600;
+        myCanvas.width = CANVASWIDTH;
+        myCanvas.height = CANVASHEIGHT;
 
         this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
         this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
 
         window.addEventListener("resize", this.recalibrate);
+        this.clearAll()
     };
 
     recalibrate = () => {
-        let myCanvas = document.querySelector('.canvas');
         this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
         this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
     }
@@ -65,7 +70,7 @@ class Canvas extends Component {
                 this.startFilling(event);
     
             } else if (event.type === "mouseup") {
-                console.log('hi')
+                this.endFilling();
             }
         }
         
@@ -77,15 +82,15 @@ class Canvas extends Component {
         }
 
         //Formatting
-        this.state.context.lineWidth = this.state.strokeSize;
-        this.state.context.strokeStyle = this.state.strokeColor;
-        this.state.context.lineCap = "round";
+        context.lineWidth = this.state.strokeSize;
+        context.strokeStyle = this.state.strokeColor;
+        context.lineCap = "round";
 
         //Draw
-        this.state.context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
-        this.state.context.stroke();
-        this.state.context.beginPath();
-        this.state.context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.stroke();
+        context.beginPath();
+        context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
 
         //Keep track of points
         let temp = [...this.state.tempPoints];
@@ -102,15 +107,15 @@ class Canvas extends Component {
         this.setState({drawing : true})
 
         //Formatting
-        this.state.context.lineWidth = this.state.strokeSize;
-        this.state.context.strokeStyle = this.state.strokeColor;
-        this.state.context.lineCap = "round";
+        context.lineWidth = this.state.strokeSize;
+        context.strokeStyle = this.state.strokeColor;
+        context.lineCap = "round";
 
         //Make Dots
-        this.state.context.beginPath();
-        this.state.context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
-        this.state.context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
-        this.state.context.stroke();
+        context.beginPath();
+        context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.stroke();
 
         //Keep Track of Dots
 
@@ -124,18 +129,19 @@ class Canvas extends Component {
 
     endDrawing = () => {
         //Reset Lines
-        this.state.context.beginPath();
+        context.beginPath();
         this.setState({drawing : false});
 
-        let temp = [...this.state.strokePaths]
+        let temp = [...this.state.strokePaths];
         temp.push([...this.state.tempPoints]);
         this.setState({strokePaths : temp});
         this.setState({tempPoints : []});
     }
 
     clearAll = () => {
-        let myCanvas = document.querySelector('.canvas');
-        this.state.context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        context.fillStyle = "rgba(255, 255, 255, 1)";
+        context.fillRect(0, 0, myCanvas.width, myCanvas.height);
+
         this.setState({strokePaths : []});
         this.setState({tempPoints : []});
     }
@@ -149,8 +155,7 @@ class Canvas extends Component {
     }
 
     undoStroke = () => {
-        let myCanvas = document.querySelector('.canvas');
-        this.state.context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        context.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
         this.recreatePaths()
         let temp = [...this.state.strokePaths]
@@ -160,28 +165,58 @@ class Canvas extends Component {
 
     recreatePaths = () => {
         // draw all the paths in the paths array
+        console.log(this.state.strokePaths)
         for(let stroke = 0; stroke < this.state.strokePaths.length - 1; stroke++) {
+            if (this.state.strokePaths[stroke][0] === "FILLING") {
+                let newColor = this.state.strokePaths[stroke][2]
 
-            //Formatting
-            this.state.context.lineWidth = this.state.strokePaths[stroke][0].size;
-            this.state.context.strokeStyle = this.state.strokePaths[stroke][0].color;
-            this.state.context.lineCap = "round";
+                let arrayIndex = this.state.strokePaths[stroke][1];
 
-            //Make Dots
-            this.state.context.beginPath();
-            this.state.context.moveTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
-            this.state.context.lineTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
-            this.state.context.stroke();
+                let agenda = [arrayIndex];
+                let visited = new Set();
+                visited.add(arrayIndex)
 
-            for(let coor = 1; coor < this.state.strokePaths[stroke].length; coor++) {
-                //Draw
-                this.state.context.lineTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
-                this.state.context.stroke();
-                this.state.context.beginPath();
-                this.state.context.moveTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
+                let image = context.getImageData(0, 0, CANVASWIDTH, CANVASHEIGHT)
+                let imageData = image.data;
+
+                let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2], imageData[arrayIndex + 3]]
+                while (agenda.length != 0) {
+                    let currentPixel = agenda.pop()
+
+                    this.colorPixel(imageData, currentPixel, newColor)
+                    let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData)
+
+                    for (let n = 0; n < neighbors.length; n++) {
+                        agenda.push(neighbors[n])
+                        visited.add(neighbors[n])
+                    }
+                }
+                context.putImageData(image, 0, 0);
+                //console.log(newColor, colorToChange, arrayIndex)
+                //console.log(imageData)
+
+            } else {
+                //Formatting
+                context.lineWidth = this.state.strokePaths[stroke][0].size;
+                context.strokeStyle = this.state.strokePaths[stroke][0].color;
+                context.lineCap = "round";
+
+                //Make Dots
+                context.beginPath();
+                context.moveTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
+                context.lineTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
+                context.stroke();
+
+                for(let coor = 1; coor < this.state.strokePaths[stroke].length; coor++) {
+                    //Draw
+                    context.lineTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
+                    context.stroke();
+                    context.beginPath();
+                    context.moveTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
+                };
+                context.beginPath();
             };
-            this.state.context.beginPath();
-        };
+        };       
     }  
 
     commenceFill = () => {
@@ -189,42 +224,44 @@ class Canvas extends Component {
     }
 
     startFilling = (event) => {
-        let saveStrokeSize = this.state.strokeSize;
-
         let newColor = this.state.strokeColor.match(/\d+/g)
 
         let coords = {x: event.clientX  - this.state.horizontalShift, y: event.clientY - this.state.verticalShift}
-        let arrayIndex = ((coords.y * 1000 + coords.x) * 4) | 0;
+        let arrayIndex = (((coords.y | 0)* CANVASWIDTH + (coords.x | 0)) * 4);
 
         let agenda = [arrayIndex];
         let visited = new Set();
         visited.add(arrayIndex)
 
-        let image = this.state.context.getImageData(0,0,1000,600)
+        let image = context.getImageData(0, 0, CANVASWIDTH, CANVASHEIGHT)
         let imageData = image.data;
-        let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2]]
+
+        let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2], imageData[arrayIndex + 3]]
         while (agenda.length != 0) {
-            let currentPixel = agenda.shift()
+            let currentPixel = agenda.pop()
 
             this.colorPixel(imageData, currentPixel, newColor)
             let neighbors = this.findNeighbors(currentPixel, visited, colorToChange, imageData)
+
             for (let n = 0; n < neighbors.length; n++) {
-                agenda.push(n)
-                visited.add(n)
+                agenda.push(neighbors[n])
+                visited.add(neighbors[n])
             }
         }
-        this.state.context.putImageData(image, 0, 0);
+        context.putImageData(image, 0, 0);
+        this.setState({tempPoints : ["FILLING", arrayIndex, newColor]});
     }
 
     findNeighbors = (index, visited, colorCheck, imageData) => {
-        let contestants = [index - 4, index + 4, index + 4000, index - 4000]
+        let contestants = [index - 4, index + 4, index + 4*CANVASWIDTH, index - 4*CANVASWIDTH]
         let neighbors = []
-        for (let i = 0; i < 4; i++){
-            if (contestants[i] > -1 && contestants[i] < 2400000 && (visited.has(contestants[i]) === false)) {
 
-                let pixel = [imageData[contestants[i]], imageData[contestants[i] + 1], imageData[contestants[i] + 2]]
+        for (let i = 0; i < contestants.length; i++) {
+            if (contestants[i] < CANVASWIDTH*CANVASHEIGHT*4 && contestants[i] > -1 && (visited.has(contestants[i])===false)) {
 
-                if (pixel.every((val, index) => val === colorCheck[index])) {
+                let pixel = [imageData[contestants[i]], imageData[contestants[i] + 1], imageData[contestants[i] + 2], imageData[contestants[i] + 3]]
+
+                if (pixel.every((val, i) => val === colorCheck[i])) {
                     neighbors.push(contestants[i])
                 }
             }
@@ -232,9 +269,20 @@ class Canvas extends Component {
         return (neighbors)
     }
 
+    endFilling = () => {
+        this.setState({filling : false});
+        let temp = [...this.state.strokePaths];
+        temp.push([...this.state.tempPoints]);
+        this.setState({strokePaths : temp});
+        this.setState({tempPoints : []});
+    }
+
     colorPixel = (imageData, pixelPos, color) => {
-        for (let i = 0; i < 3; i++) {
-            imageData[pixelPos + i] = color[i]
+        imageData[pixelPos] = color[0];
+        imageData[pixelPos + 1] = color[1];
+        imageData[pixelPos + 2] = color[2];
+        if (imageData[pixelPos + 3] === 0) {
+            imageData[pixelPos + 3] = 1;
         }
     }
 
@@ -299,17 +347,17 @@ class Canvas extends Component {
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
                 <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                <button className="color red" onClick={this.changeRed}></button>  
-                <button className="color orange" onClick={this.changeOrange}></button>  
-                <button className="color yellow" onClick={this.changeYellow}></button>  
-                <button className="color green" onClick={this.changeGreen}></button>  
-                <button className="color blue" onClick={this.changeBlue}></button>  
-                <button className="color purple" onClick={this.changePurple}></button>  
-                <button className="color pink" onClick={this.changePink}></button>  
-                <button className="color brown" onClick={this.changeBrown}></button>  
-                <button className="color black" onClick={this.changeBlack}></button>  
-                <button className="color grey" onClick={this.changeGrey}></button>  
-                <button className="color white" onClick={this.changeWhite}></button>  
+                <button className="canvas-color red" onClick={this.changeRed}></button>  
+                <button className="canvas-color orange" onClick={this.changeOrange}></button>  
+                <button className="canvas-color yellow" onClick={this.changeYellow}></button>  
+                <button className="canvas-color green" onClick={this.changeGreen}></button>  
+                <button className="canvas-color blue" onClick={this.changeBlue}></button>  
+                <button className="canvas-color purple" onClick={this.changePurple}></button>  
+                <button className="canvas-color pink" onClick={this.changePink}></button>  
+                <button className="canvas-color brown" onClick={this.changeBrown}></button>  
+                <button className="canvas-color black" onClick={this.changeBlack}></button>  
+                <button className="canvas-color grey" onClick={this.changeGrey}></button>  
+                <button className="canvas-color white" onClick={this.changeWhite}></button>  
                 <button className="clearButton" onClick={this.clearAll}> Clear </button>
                 <button className="submitButton" onClick={this.submitDrawing}> Submit </button>
                 <button className="undoButton" onClick={this.undoStroke}> Undo </button>

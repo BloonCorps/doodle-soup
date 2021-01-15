@@ -2,11 +2,8 @@
 |--------------------------------------------------------------------------
 | api.js -- server routes
 |--------------------------------------------------------------------------
-|
 | This file defines the routes for your server.
-|
 */
-
 const express = require("express");
 
 // import models so we can interact with the database
@@ -23,6 +20,7 @@ const socketManager = require("./server-socket");
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
+
 router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
@@ -41,6 +39,12 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+// TODO: needs to be connected to auth 
+router.get("/drawings", (req, res) => {
+  res.send(['laskdjflaskjgl']);
+});
+
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
