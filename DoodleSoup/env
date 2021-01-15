@@ -1,0 +1,2 @@
+ATLAS_SRV = "mongodb+srv://admin:DiWPgntc2qbFwK9@cluster0.gi0u7.mongodb.net/?retryWrites=true&w=majority";
+SESSION_SECRET = "session-secret";
