@@ -42,7 +42,7 @@ router.post("/initsocket", (req, res) => {
 
 // TODO: needs to be connected to auth 
 router.get("/drawings", (req, res) => {
-  res.send(['laskdjflaskjgl']);
+  Drawing.find({}).then((drawings) => res.send(drawings));
 });
 
 
