@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Location } from "@reach/router";
+import { Router, Location, Redirect } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Feed from "./pages/Feed.js";
 import NavBar from "./modules/NavBar.js";
@@ -52,7 +52,15 @@ class App extends Component {
     post("/api/logout");
   };
 
+  checkLoggedIn = () => {
+    if (!this.state.userId) {
+      console.log("UNDEFINED")
+      window.alert(">:( Please log in first <3")
+      return <Redirect to="/" />
+    }
+  }
   render() {
+    // !this.state.userId ? window.location.pathname = "/" : null
     return (
       <>
         <Location>
@@ -60,6 +68,7 @@ class App extends Component {
              (locationProps.location.pathname === "/") ? null : (
                 <NavBar />
              )
+            //  (!this.state.userId) ? window.location.pathname = "/" : null
           )}
         </Location>
         <Router>
@@ -67,13 +76,15 @@ class App extends Component {
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
           userId={this.state.userId}
+          // {...(this.state.userId) ? <Redirect to="/feed/" /> : null}
           />
+          {/* just trying to redirect this stupid fucker why wont it WORKKK*/}
+          {/* {...!this.state.userId ? window.location.pathname = "/" : null} */}
+          <NotFound default/>
+          <Canvas path="/create/"/>
+          <Account path="/account/"/>
+          <Feed path="/feed/"/>
           
-          <NotFound default />
-          <Canvas path="/create/" />
-          <Account path="/account/" />
-          <Feed path="/feed/" />
-        
         </Router>
       </>
     );

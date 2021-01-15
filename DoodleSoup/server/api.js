@@ -40,6 +40,12 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+// TODO: needs to be connected to auth 
+router.get("/drawings", (req, res) => {
+  Drawing.find({}).then((drawings) => res.send(drawings));
+});
+
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

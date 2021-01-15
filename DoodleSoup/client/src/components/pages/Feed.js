@@ -1,24 +1,51 @@
 import React, { Component } from "react";
 
-import "../../utilities.css";
 import "./Feed.css";
-
-
+import Post from "../modules/Post.js";
+import { get } from "../../utilities";
 
 class Feed extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+      drawings: [],
+    };
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
+    document.title = "News Feed";
+    // this line doesnt fucking work
+    get("/api/drawings").then((drawingObjs) => {
+      let reversedStoryObjs = drawingObjs.reverse();
+      reversedStoryObjs.map((drawingObj) => {
+        this.setState({ drawings: this.state.drawings.concat([drawingObj]) });
+      });
+    });
   }
 
   render() {
+    let drawingsList = null;
+    const hasDrawings = this.state.drawings.length !== 0;
+    if (hasDrawings) {
+      drawingsList = this.state.drawings.map((DrawingObj) => (
+        <Post
+          key={`Card_${DrawingObj._id}`}
+          _id={DrawingObj._id}
+          creator_name={DrawingObj.creator_name}
+          creator_id={DrawingObj.creator_id}
+          userId={this.props.userId}
+          content={DrawingObj.content}
+        />
+      ));
+    } else {
+      drawingsList = <div>No drawings!</div>;
+    }
     return (
-      <div> jared figure out the goddamn backend </div>
+      <>
+        {/* {this.props.userId && <NewStory addNewStory={this.addNewStory} />} */}
+        {drawingsList}
+      </>
     );
   }
 }
