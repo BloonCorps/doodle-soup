@@ -28,9 +28,9 @@ const path = require("path"); // provide utilities for working with file and dir
 const api = require("./api");
 const auth = require("./auth");
 
-// const dotenv = require("dotenv").config();
-import dotenv from "dotenv";
-dotenv.config({})
+const dotenv = require("dotenv").config();
+// import dotenv from "dotenv";
+// dotenv.config({})
 
 // socket stuff
 const socketManager = require("./server-socket");
