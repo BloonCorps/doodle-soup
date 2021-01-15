@@ -4,15 +4,19 @@ import "./canvas.css"
 
 //UNDO FILL DOESNT WORK
 
-let CANVASWIDTH = 50;
-let CANVASHEIGHT = 50;
+let CANVASWIDTH = 1000;
+let CANVASHEIGHT = 600;
 let myCanvas = null;
 let context = null;
+let tempPoints = [];
+let strokePaths = [];
+let verticalShift = 0;
+let horizontalShift = 0;
 
 //const rect = canvas.getBoundingClientRect() <-Fix for positioning
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
 const RADIUSSHIFT = 11;
-//test comment delete this plz
+
 class Canvas extends Component {
     constructor(props) {
         super(props);
@@ -20,14 +24,8 @@ class Canvas extends Component {
         this.state = {
             drawing : false,
 
-            verticalShift : 0,
-            horizontalShift : 0,
-
             strokeSize : 10,
-            strokeColor : "rgba(0, 0, 0, 1)",
-
-            strokePaths : [],
-            tempPoints : [],
+            strokeColor : "rgba(0, 0, 0, 1)", 
 
             filling : false,
         };
@@ -41,16 +39,16 @@ class Canvas extends Component {
         myCanvas.width = CANVASWIDTH;
         myCanvas.height = CANVASHEIGHT;
 
-        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
-        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
+        verticalShift = myCanvas.getBoundingClientRect().top + RADIUSSHIFT;
+        horizontalShift = myCanvas.getBoundingClientRect().left + RADIUSSHIFT;
 
         window.addEventListener("resize", this.recalibrate);
         this.clearAll()
     };
 
     recalibrate = () => {
-        this.setState({verticalShift : myCanvas.getBoundingClientRect().top + RADIUSSHIFT});
-        this.setState({horizontalShift : myCanvas.getBoundingClientRect().left + RADIUSSHIFT});
+        verticalShift = myCanvas.getBoundingClientRect().top + RADIUSSHIFT;
+        horizontalShift = myCanvas.getBoundingClientRect().left + RADIUSSHIFT;
     }
 
     handleEvent = (event) => {
@@ -87,20 +85,20 @@ class Canvas extends Component {
         context.lineCap = "round";
 
         //Draw
-        context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.lineTo(event.clientX - horizontalShift, event.clientY - verticalShift);
         context.stroke();
         context.beginPath();
-        context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.moveTo(event.clientX - horizontalShift, event.clientY - verticalShift);
 
         //Keep track of points
-        let temp = [...this.state.tempPoints];
+        let temp = [...tempPoints];
         temp.push(
             {'x': event.clientX, 
             'y': event.clientY, 
             'color': this.state.strokeColor,
             'size': this.state.strokeSize});
 
-        this.setState({tempPoints : temp});
+        tempPoints = temp;
     }
 
     startDrawing = (event) => {
@@ -113,8 +111,8 @@ class Canvas extends Component {
 
         //Make Dots
         context.beginPath();
-        context.moveTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
-        context.lineTo(event.clientX - this.state.horizontalShift, event.clientY - this.state.verticalShift);
+        context.moveTo(event.clientX - horizontalShift, event.clientY - verticalShift);
+        context.lineTo(event.clientX - horizontalShift, event.clientY - verticalShift);
         context.stroke();
 
         //Keep Track of Dots
@@ -124,7 +122,7 @@ class Canvas extends Component {
         'y': event.clientY, 
         'color': this.state.strokeColor,
         'size': this.state.strokeSize}]
-        this.setState({tempPoints : input})
+        tempPoints = input;
     }
 
     endDrawing = () => {
@@ -132,18 +130,18 @@ class Canvas extends Component {
         context.beginPath();
         this.setState({drawing : false});
 
-        let temp = [...this.state.strokePaths];
-        temp.push([...this.state.tempPoints]);
-        this.setState({strokePaths : temp});
-        this.setState({tempPoints : []});
+        let temp = [...strokePaths];
+        temp.push([...tempPoints]);
+        strokePaths = temp;
+        tempPoints = [];
     }
 
     clearAll = () => {
         context.fillStyle = "rgba(255, 255, 255, 1)";
         context.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
-        this.setState({strokePaths : []});
-        this.setState({tempPoints : []});
+        strokePaths = [];
+        tempPoints = [];
     }
 
     changeStrokeSize = (event) => {
@@ -158,18 +156,18 @@ class Canvas extends Component {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
         this.recreatePaths()
-        let temp = [...this.state.strokePaths]
+        let temp = [...strokePaths]
         temp.pop()
-        this.setState({strokePaths : temp})
+        strokePaths = temp;
     }
 
     recreatePaths = () => {
         // draw all the paths in the paths array
-        for(let stroke = 0; stroke < this.state.strokePaths.length - 1; stroke++) {
-            if (this.state.strokePaths[stroke][0] === "FILLING") {
-                let newColor = this.state.strokePaths[stroke][2]
+        for(let stroke = 0; stroke < strokePaths.length - 1; stroke++) {
+            if (strokePaths[stroke][0] === "FILLING") {
+                let newColor = strokePaths[stroke][2]
 
-                let arrayIndex = this.state.strokePaths[stroke][1];
+                let arrayIndex = strokePaths[stroke][1];
 
                 let agenda = [arrayIndex];
                 let visited = new Set();
@@ -192,22 +190,22 @@ class Canvas extends Component {
 
             } else {
                 //Formatting
-                context.lineWidth = this.state.strokePaths[stroke][0].size;
-                context.strokeStyle = this.state.strokePaths[stroke][0].color;
+                context.lineWidth = strokePaths[stroke][0].size;
+                context.strokeStyle = strokePaths[stroke][0].color;
                 context.lineCap = "round";
 
                 //Make Dots
                 context.beginPath();
-                context.moveTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
-                context.lineTo(this.state.strokePaths[stroke][0].x - this.state.horizontalShift, this.state.strokePaths[stroke][0].y - this.state.verticalShift);
+                context.moveTo(strokePaths[stroke][0].x - horizontalShift, strokePaths[stroke][0].y - verticalShift);
+                context.lineTo(strokePaths[stroke][0].x - horizontalShift, strokePaths[stroke][0].y - verticalShift);
                 context.stroke();
          
-                for(let coor = 1; coor < this.state.strokePaths[stroke].length; coor++) {
+                for(let coor = 1; coor < strokePaths[stroke].length; coor++) {
                     //Draw
-                    context.lineTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
+                    context.lineTo(strokePaths[stroke][coor].x - horizontalShift, strokePaths[stroke][coor].y - verticalShift);
                     context.stroke();
                     context.beginPath();
-                    context.moveTo(this.state.strokePaths[stroke][coor].x - this.state.horizontalShift, this.state.strokePaths[stroke][coor].y - this.state.verticalShift);
+                    context.moveTo(strokePaths[stroke][coor].x - horizontalShift, strokePaths[stroke][coor].y - verticalShift);
                 };
                 context.beginPath();
             };
@@ -221,7 +219,7 @@ class Canvas extends Component {
     startFilling = (event) => {
         let newColor = this.state.strokeColor.match(/\d+/g)
 
-        let coords = {x: event.clientX  - this.state.horizontalShift, y: event.clientY - this.state.verticalShift}
+        let coords = {x: event.clientX  - horizontalShift, y: event.clientY - verticalShift}
         let arrayIndex = (((coords.y | 0)* CANVASWIDTH + (coords.x | 0)) * 4);
 
         let agenda = [arrayIndex];
@@ -242,7 +240,7 @@ class Canvas extends Component {
             neighbors.forEach(n => agenda.push(n), visited.add(n))
         }
         context.putImageData(image, 0, 0);
-        this.setState({tempPoints : ["FILLING", arrayIndex, newColor]});
+        tempPoints = ["FILLING", arrayIndex, newColor];
     }
 
     findNeighbors = (index, visited, colorCheck, imageData) => {
@@ -254,10 +252,10 @@ class Canvas extends Component {
 
     endFilling = () => {
         this.setState({filling : false});
-        let temp = [...this.state.strokePaths];
-        temp.push([...this.state.tempPoints]);
-        this.setState({strokePaths : temp});
-        this.setState({tempPoints : []});
+        let temp = [...strokePaths];
+        temp.push([...tempPoints]);
+        strokePaths = temp;
+        tempPoints = [];
     }
 
     colorPixel = (imageData, pixelPos, color) => {
