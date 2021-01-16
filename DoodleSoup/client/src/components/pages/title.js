@@ -22,7 +22,7 @@ class Title extends Component {
         return (
             <>
             <div className="titleBox">
-              <text className="title"> DOODLESOUP </text>
+              <div className="title"> DOODLESOUP </div>
             </div>
             {this.props.userId ? (
           <GoogleLogout
