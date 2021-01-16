@@ -31,7 +31,7 @@ class Canvas extends Component {
             strokeSize : 10,
             strokeColor : "rgba(0, 0, 0, 255)", 
 
-            filling : false,
+            action : 'drawing'
         };
     };
 
@@ -59,7 +59,7 @@ class Canvas extends Component {
     }
 
     handleEvent = (event) => {
-        if (this.state.filling == false) {
+        if (this.state.action === "drawing") {
             if (event.type === "mousedown") {
                 this.commenceInitialDrawing(event);
     
@@ -82,6 +82,10 @@ class Canvas extends Component {
     };
 
     //CANVAS DRAW
+    drawingAction = () => {
+        this.setState({action : "drawing"})
+    }
+
     commenceDrawing = (event) => {
         if (this.state.drawing === false) {
             return
@@ -152,8 +156,8 @@ class Canvas extends Component {
     }
 
     //CANVAS FILL
-    commenceFill = () => {
-        this.setState({filling : true})
+    fillingAction = () => {
+        this.setState({action : "filling"})
     }
 
     startFilling = (event) => {
@@ -197,7 +201,6 @@ class Canvas extends Component {
     }
 
     endFilling = () => {
-        this.setState({filling : false});
         let temp = [...strokePaths];
         temp.push([...tempPoints]);
         strokePaths = temp;
@@ -407,8 +410,8 @@ class Canvas extends Component {
                     </div>
 
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                    <button className="techButton pencil" onClick={this.commenceFill}> </button>
-                    <button className="techButton fill" onClick={this.commenceFill}> </button>
+                    <button className="techButton pencil" onClick={this.drawingAction}> </button>
+                    <button className="techButton fill" onClick={this.fillingAction}> </button>
                     <button className="techButton clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" onClick={this.undoStroke}> </button>
                     <button className="techButton submit" onClick={this.submitDrawing}> </button>
