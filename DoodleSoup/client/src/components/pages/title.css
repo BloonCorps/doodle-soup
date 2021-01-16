@@ -1,0 +1,25 @@
+.title{
+    font-family: "Comic", serif;
+    font-size: 500%;
+    padding: 10%;
+    margin: auto;
+    color:azure;
+    text-align: center;
+}
+
+.titleBox {
+    display: flex;
+    justify-content: center;
+    /* width: 70%;
+    height: 50%; */
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    /* width: 10%; */
+}
+
+.button {
+    margin: auto;
+}

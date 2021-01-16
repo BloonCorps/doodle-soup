@@ -21,6 +21,9 @@ class Title extends Component {
     render () {
         return (
             <>
+            <div className="titleBox">
+              <text className="title"> DOODLESOUP </text>
+            </div>
             {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -29,12 +32,15 @@ class Title extends Component {
             onFailure={(err) => console.log(err)}
           />
         ) : (
+          <div className="login">
           <GoogleLogin
+            className="button"
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Login"
             onSuccess={this.props.handleLogin}
             onFailure={(err) => console.log(err)}
           />
+          </div>
         )}
       </>
         )

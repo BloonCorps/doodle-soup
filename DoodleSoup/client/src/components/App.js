@@ -14,9 +14,6 @@ import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 
-/**
- * Define the "App" component as a class.
- */
 class App extends Component {
   // makes props available in this component
   constructor(props) {
@@ -52,30 +49,24 @@ class App extends Component {
     post("/api/logout");
   };
 
-  checkLoggedIn = () => {
-    if (!this.state.userId) {
-      console.log("UNDEFINED")
-      window.alert(">:( Please log in first <3")
-      return <Redirect to="/" />
-    }
-  }
   render() {
     return (
       <>
        {!this.state.userId ? 
        <Title path="/"
           handleLogin={this.handleLogin}
-          handleLogout={this.handleLogout}
           userId={this.state.userId}
           /> : 
           <>
           <NavBar />
           <Router>
          
-          <NotFound default/>
-          <Canvas path="/create/"/>
-          <Account path="/account/"/>
-          <Feed path="/feed/"/>
+          <NotFound default userId={this.state.userId}/>
+          <Canvas path="/create/" userId={this.state.userId}/>
+          <Account path="/account/" 
+            userId={this.state.userId} 
+            handleLogout={this.handleLogout}/>
+          <Feed path="/feed/" userId={this.state.userId}/>
           
         </Router>
         </>
