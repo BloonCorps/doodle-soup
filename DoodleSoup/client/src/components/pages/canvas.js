@@ -5,7 +5,8 @@ import "./canvas.css"
 //UNDO FILL DOESNT WORK
 
 let CANVASWIDTH = 1000;
-let CANVASHEIGHT = 600;
+let CANVASHEIGHT = 600
+;
 
 let myCanvas = null;
 let context = null;
@@ -28,9 +29,9 @@ class Canvas extends Component {
             drawing : false,
 
             strokeSize : 10,
-            strokeColor : "rgba(0, 0, 0, 1)", 
+            strokeColor : "rgba(0, 0, 0, 255)", 
 
-            filling : false,
+            action : 'drawing'
         };
     };
 
@@ -58,7 +59,7 @@ class Canvas extends Component {
     }
 
     handleEvent = (event) => {
-        if (this.state.filling == false) {
+        if (this.state.action === "drawing") {
             if (event.type === "mousedown") {
                 this.commenceInitialDrawing(event);
     
@@ -81,6 +82,10 @@ class Canvas extends Component {
     };
 
     //CANVAS DRAW
+    drawingAction = () => {
+        this.setState({action : "drawing"})
+    }
+
     commenceDrawing = (event) => {
         if (this.state.drawing === false) {
             return
@@ -151,8 +156,8 @@ class Canvas extends Component {
     }
 
     //CANVAS FILL
-    commenceFill = () => {
-        this.setState({filling : true})
+    fillingAction = () => {
+        this.setState({action : "filling"})
     }
 
     startFilling = (event) => {
@@ -180,6 +185,7 @@ class Canvas extends Component {
             let n = null;
             neighbors.forEach(n => agenda.push(n), visited.add(n))
         }
+        console.log(arrayIndex, newColor, colorToChange)
 
         context.putImageData(image, 0, 0);
         if (retracing === false) {
@@ -195,7 +201,6 @@ class Canvas extends Component {
     }
 
     endFilling = () => {
-        this.setState({filling : false});
         let temp = [...strokePaths];
         temp.push([...tempPoints]);
         strokePaths = temp;
@@ -207,9 +212,7 @@ class Canvas extends Component {
         imageData[pixelPos + 1] = color[1];
         imageData[pixelPos + 2] = color[2];
 
-        if (imageData[pixelPos + 3] === 0) {
-            imageData[pixelPos + 3] = 1;
-        }
+        imageData[pixelPos + 3] = 255;
     }
 
     //UNDO
@@ -249,7 +252,7 @@ class Canvas extends Component {
     }
 
     clearAll = () => {
-        context.fillStyle = "rgba(255, 255, 255, 1)";
+        context.fillStyle = "rgba(255, 255, 255, 255)";
         context.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
         strokePaths = [];
@@ -262,57 +265,111 @@ class Canvas extends Component {
     }
     changeRed = () => {
         this.setState(
-            {strokeColor : "rgba(255, 0, 0, 1)"}
+            {strokeColor : "rgba(255, 0, 0, 255)"}
         )
     }
     changeOrange = () => {
         this.setState(
-            {strokeColor : "rgba(255, 165, 0, 1)"}
+            {strokeColor : "rgba(255, 165, 0, 255)"}
         )
     }
     changeYellow = () => {
         this.setState(
-            {strokeColor : "rgba(255, 255, 0, 1)"}
+            {strokeColor : "rgba(255, 255, 0, 255)"}
         )
     }
     changeGreen = () => {
         this.setState(
-            {strokeColor : "rgba(0, 128, 0, 1)"}
+            {strokeColor : "rgba(0, 128, 0, 255)"}
         )
     }
     changeBlue = () => {
         this.setState(
-            {strokeColor : "rgba(0, 0, 255, 1)"}
+            {strokeColor : "rgba(0, 0, 255, 255)"}
         )
     }
     changePurple = () => {
         this.setState(
-            {strokeColor : "rgba(128, 0, 128, 1)"}
+            {strokeColor : "rgba(128, 0, 128, 255)"}
         )
     }
     changePink = () => {
         this.setState(
-            {strokeColor : "rgba(255, 192, 203, 1)"}
+            {strokeColor : "rgba(255, 192, 203, 255)"}
         )
     }
     changeBrown = () => {
         this.setState(
-            {strokeColor : "rgba(165, 42, 42, 1)"}
+            {strokeColor : "rgba(165, 42, 42, 255)"}
         )
     }
     changeBlack = () => {
         this.setState(
-            {strokeColor : "rgba(0, 0, 0, 1)"}
+            {strokeColor : "rgba(0, 0, 0, 255)"}
         )
     }
     changeGrey = () => {
         this.setState(
-            {strokeColor : "rgba(128, 128, 128, 1)"}
+            {strokeColor : "rgba(128, 128, 128, 255)"}
         )
     }
     changeWhite = () => {
         this.setState(
-            {strokeColor : "rgba(255, 255, 255, 1)"}
+            {strokeColor : "rgba(255, 255, 255, 255)"}
+        )
+    }
+
+    changeLime = () => {
+        this.setState(
+            {strokeColor : "rgba(0, 255, 0, 255)"}
+        )
+    }
+
+    changeCoral = () => {
+        this.setState(
+            {strokeColor : "rgba(255, 127, 80, 255)"}
+        )
+    }
+
+    changeDarkRed = () => {
+        this.setState(
+            {strokeColor : "rgba(100, 0, 0, 255)"}
+        )
+    }
+
+    changeViolet = () => {
+        this.setState(
+            {strokeColor : "rgba(238, 130, 239, 255)"}
+        )
+    }
+
+    changeNavy = () => {
+        this.setState(
+            {strokeColor : "rgba(0, 0, 128, 255)"}
+        )
+    }
+
+    changeCyan = () => {
+        this.setState(
+            {strokeColor : "rgba(0, 255, 255, 255)"}
+        )
+    }
+
+    changeLightGray = () => {
+        this.setState(
+            {strokeColor : "rgba(211, 211, 211, 255)"}
+        )
+    }
+
+    changeGoldenRod = () => {
+        this.setState(
+            {strokeColor : "rgba(218, 165, 32, 255)"}
+        )
+    }
+
+    changeIndigo = () => {
+        this.setState(
+            {strokeColor : "rgba(75, 0, 130, 255)"}
         )
     }
 
@@ -326,22 +383,39 @@ class Canvas extends Component {
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
-                <input className="strokeSize" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                <button className="canvas-color red" onClick={this.changeRed}></button>  
-                <button className="canvas-color orange" onClick={this.changeOrange}></button>  
-                <button className="canvas-color yellow" onClick={this.changeYellow}></button>  
-                <button className="canvas-color green" onClick={this.changeGreen}></button>  
-                <button className="canvas-color blue" onClick={this.changeBlue}></button>  
-                <button className="canvas-color purple" onClick={this.changePurple}></button>  
-                <button className="canvas-color pink" onClick={this.changePink}></button>  
-                <button className="canvas-color brown" onClick={this.changeBrown}></button>  
-                <button className="canvas-color black" onClick={this.changeBlack}></button>  
-                <button className="canvas-color grey" onClick={this.changeGrey}></button>  
-                <button className="canvas-color white" onClick={this.changeWhite}></button>  
-                <button className="clearButton" onClick={this.clearAll}> Clear </button>
-                <button className="submitButton" onClick={this.submitDrawing}> Submit </button>
-                <button className="undoButton" onClick={this.undoStroke}> Undo </button>
-                <button className="fillButton" onClick={this.commenceFill}> Fill </button>
+
+                <div className="controlPanel">
+                    <div className="colorPanel">
+                        <button className="canvas-color white" onClick={this.changeWhite}></button>  
+                        <button className="canvas-color lightGray" onClick={this.changeLightGray}></button>  
+                        <button className="canvas-color red" onClick={this.changeRed}></button>  
+                        <button className="canvas-color orange" onClick={this.changeOrange}></button>  
+                        <button className="canvas-color yellow" onClick={this.changeYellow}></button> 
+                        <button className="canvas-color lime" onClick={this.changeLime}></button>  
+                        <button className="canvas-color cyan" onClick={this.changeCyan}></button>   
+                        <button className="canvas-color purple" onClick={this.changePurple}></button> 
+                        <button className="canvas-color violet" onClick={this.changeViolet}></button>   
+                        <button className="canvas-color pink" onClick={this.changePink}></button> 
+
+                        <button className="canvas-color black" onClick={this.changeBlack}></button>  
+                        <button className="canvas-color grey" onClick={this.changeGrey}></button>  
+                        <button className="canvas-color darkRed" onClick={this.changeDarkRed}></button>  
+                        <button className="canvas-color coral" onClick={this.changeCoral}></button> 
+                        <button className="canvas-color goldenRod" onClick={this.changeGoldenRod}></button>  
+                        <button className="canvas-color green" onClick={this.changeGreen}></button> 
+                        <button className="canvas-color blue" onClick={this.changeBlue}></button> 
+                        <button className="canvas-color indigo" onClick={this.changeIndigo}></button>  
+                        <button className="canvas-color navy" onClick={this.changeNavy}></button>  
+                        <button className="canvas-color brown" onClick={this.changeBrown}></button>  
+                    </div>
+
+                    <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
+                    <button className="techButton pencil" onClick={this.drawingAction}> </button>
+                    <button className="techButton fill" onClick={this.fillingAction}> </button>
+                    <button className="techButton clear" onClick={this.clearAll}>  </button>
+                    <button className="techButton undo" onClick={this.undoStroke}> </button>
+                    <button className="techButton submit" onClick={this.submitDrawing}> </button>
+                </div>
             </div>
         )
     }
