@@ -9,9 +9,22 @@
     margin-bottom: 30px;
 }
 
+.colorPanel {
+    display: flex;
+    flex-wrap: wrap;
+    width: 320px;
+}
+
+.controlPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
 .canvas-color {
-    height: 20px;
-    width: 20px;
+    height: 32px;
+    width: 32px;
     border: none;
     display: inline-block;
     font-size: 16px;
@@ -28,16 +41,40 @@
 .black {background-color: black;}
 .grey{ background-color: gray;}
 .white {background-color: white;}
+.lime {background-color: lime;}
+.coral {background-color: coral;}
+.darkRed {background-color: rgb(100, 0, 0);}
+.violet {background-color: violet;}
+.navy {background-color: navy;}
+.cyan {background-color: cyan;}
+.lightGray {background-color: lightgray;}
+.goldenRod {background-color: goldenrod;}
+.indigo {background-color: indigo;}
 
+.clear {background:url(../images/Clear_64x64.png) no-repeat;}
+.submit {background:url(../images/Submit_64x64.png) no-repeat;}
+.undo {background:url(../images/Undo_64x64.png) no-repeat;}
+.fill {background:url(../images/Fill_64x64.png) no-repeat;}
+.clear:hover {background:url(../images/Clear1_64x64.png) no-repeat;}
+.submit:hover {background:url(../images/Submit1_64x64.png) no-repeat;}
+.undo:hover {background:url(../images/Undo1_64x64.png) no-repeat;}
+.fill:hover {background:url(../images/Fill1_64x64.png) no-repeat;}
 
-.clearButton {
-    margin: 10px;
+.techButton {
+    height: 64px;
+    width: 64px;
+    margin: 10px; 
+    border: 1px solid white;
+    border-radius: 8px;
 }
 
-.submitButton {
+.sizeButton {
+    height: 64px;
+    width: 64px;
     margin: 10px;
-}
-
-.undoButton {
-    margin: 10px;
+    border-radius: 8px;
+    border: 1px solid white;
+    text-align: center;
+    font-size: 24px;
+    font-family:'Gill Sans';
 }
