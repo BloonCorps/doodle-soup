@@ -4,8 +4,8 @@ import "./canvas.css"
 
 //UNDO FILL DOESNT WORK
 
-let CANVASWIDTH = 1000;
-let CANVASHEIGHT = 600;
+let CANVASWIDTH = 300;
+let CANVASHEIGHT = 300;
 
 let myCanvas = null;
 let context = null;
