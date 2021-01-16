@@ -15,6 +15,7 @@
 
 // validator runs some basic checks to make sure you've set everything up correctly
 // this is a tool provided by staff, so you don't need to worry about it
+const dotenv = require("dotenv").config();
 const validator = require("./validator");
 validator.checkSetup();
 
@@ -28,7 +29,7 @@ const path = require("path"); // provide utilities for working with file and dir
 const api = require("./api");
 const auth = require("./auth");
 
-const dotenv = require("dotenv").config();
+
 // import dotenv from "dotenv";
 // dotenv.config({})
 
@@ -59,7 +60,7 @@ app.use(express.json());
 // set up a session, which will persist login data across requests
 app.use(
   session({
-    secret: process.eventNames.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })

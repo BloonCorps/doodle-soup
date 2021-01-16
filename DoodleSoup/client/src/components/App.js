@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Location, Redirect } from "@reach/router";
+import { Router, Location, Redirect, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Feed from "./pages/Feed.js";
 import NavBar from "./modules/NavBar.js";
@@ -42,7 +42,7 @@ class App extends Component {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id});
+      this.setState({ userId: user._id}, () => navigate("/feed/"));
       post("/api/initsocket", { socketid: socket.id });
     });
   };
@@ -60,32 +60,35 @@ class App extends Component {
     }
   }
   render() {
-    // !this.state.userId ? window.location.pathname = "/" : null
     return (
       <>
-        <Location>
-          {locationProps => (
-             (locationProps.location.pathname === "/") ? null : (
-                <NavBar />
-             )
-            //  (!this.state.userId) ? window.location.pathname = "/" : null
-          )}
-        </Location>
-        <Router>
-          <Title path="/"
+       {!this.state.userId ? 
+       <Title path="/"
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
           userId={this.state.userId}
-          // {...(this.state.userId) ? <Redirect to="/feed/" /> : null}
-          />
-          {/* just trying to redirect this stupid fucker why wont it WORKKK*/}
-          {/* {...!this.state.userId ? window.location.pathname = "/" : null} */}
+          /> : 
+          <>
+          <NavBar />
+          <Router>
+         
           <NotFound default/>
           <Canvas path="/create/"/>
           <Account path="/account/"/>
           <Feed path="/feed/"/>
           
         </Router>
+        </>
+          }
+        {/* <Location>
+          {locationProps => (
+             (locationProps.location.pathname === "/") ? null : (
+                
+             )
+            //  (!this.state.userId) ? window.location.pathname = "/" : null
+          )}
+        </Location> */}
+        
       </>
     );
   }
