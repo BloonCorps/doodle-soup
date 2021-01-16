@@ -4,8 +4,9 @@ import "./canvas.css"
 
 //UNDO FILL DOESNT WORK
 
-let CANVASWIDTH = 300;
-let CANVASHEIGHT = 300;
+let CANVASWIDTH = 1000;
+let CANVASHEIGHT = 600
+;
 
 let myCanvas = null;
 let context = null;
@@ -180,6 +181,7 @@ class Canvas extends Component {
             let n = null;
             neighbors.forEach(n => agenda.push(n), visited.add(n))
         }
+        console.log(arrayIndex, newColor, colorToChange)
 
         context.putImageData(image, 0, 0);
         if (retracing === false) {
@@ -207,9 +209,7 @@ class Canvas extends Component {
         imageData[pixelPos + 1] = color[1];
         imageData[pixelPos + 2] = color[2];
 
-        if (imageData[pixelPos + 3] === 0) {
-            imageData[pixelPos + 3] = 1;
-        }
+        imageData[pixelPos + 3] = 255;
     }
 
     //UNDO
@@ -407,10 +407,11 @@ class Canvas extends Component {
                     </div>
 
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                    <button className="techButton clear" onClick={this.clearAll}>  </button>
-                    <button className="techButton submit" onClick={this.submitDrawing}> </button>
-                    <button className="techButton undo" onClick={this.undoStroke}> </button>
+                    <button className="techButton pencil" onClick={this.commenceFill}> </button>
                     <button className="techButton fill" onClick={this.commenceFill}> </button>
+                    <button className="techButton clear" onClick={this.clearAll}>  </button>
+                    <button className="techButton undo" onClick={this.undoStroke}> </button>
+                    <button className="techButton submit" onClick={this.submitDrawing}> </button>
                 </div>
             </div>
         )

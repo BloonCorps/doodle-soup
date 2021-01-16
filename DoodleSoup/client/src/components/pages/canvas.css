@@ -51,10 +51,13 @@
 .goldenRod {background-color: goldenrod;}
 .indigo {background-color: indigo;}
 
+.pencil {background:url(../images/Pencil_64x64.png) no-repeat;}
 .clear {background:url(../images/Clear_64x64.png) no-repeat;}
 .submit {background:url(../images/Submit_64x64.png) no-repeat;}
 .undo {background:url(../images/Undo_64x64.png) no-repeat;}
 .fill {background:url(../images/Fill_64x64.png) no-repeat;}
+
+.pencil:hover {background:url(../images/Pencil1_64x64.png) no-repeat;}
 .clear:hover {background:url(../images/Clear1_64x64.png) no-repeat;}
 .submit:hover {background:url(../images/Submit1_64x64.png) no-repeat;}
 .undo:hover {background:url(../images/Undo1_64x64.png) no-repeat;}
