@@ -9,26 +9,16 @@ class Feed extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      drawings: [],
       works: [],
     };
   }
 
   componentDidMount() {
     document.title = "News Feed";
-    // this line doesnt fucking work
-    get("/api/drawings").then((drawingObjs) => {
-      let reversedStoryObjs = drawingObjs.reverse();
-      reversedStoryObjs.map((drawingObj) => {
-        this.setState({ drawings: this.state.drawings.concat([drawingObj]) });
-      });
-    });
 
-    //Jessica I dont know what the fuck you were trying to do above but what I
-    //have down here works
     get("/api/allworks").then((worksArray) => {
       console.log(worksArray);
-      this.setState({works: worksArray});
+      this.setState({works: worksArray.reverse()});
     });
   }
 
@@ -52,9 +42,9 @@ class Feed extends Component {
     }
 
     let drawingsList = null;
-    const hasDrawings = this.state.drawings.length !== 0;
+    const hasDrawings = this.state.works.length !== 0;
     if (hasDrawings) {
-      drawingsList = this.state.drawings.map((DrawingObj) => (
+      drawingsList = this.state.works.map((DrawingObj) => (
         <Post
           key={`Card_${DrawingObj._id}`}
           _id={DrawingObj._id}

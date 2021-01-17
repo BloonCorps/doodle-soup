@@ -37,10 +37,10 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-// TODO: needs to be connected to auth 
-router.get("/drawings", (req, res) => {
-  // Drawing.find({}).then((drawings) => res.send(drawings));
-});
+// // TODO: needs to be connected to auth 
+// router.get("/drawings", (req, res) => {
+//   // Drawing.find({}).then((drawings) => res.send(drawings));
+// });
 
 //finds the work of specific authors for use on account page
 router.get("/works", (req, res) => {
