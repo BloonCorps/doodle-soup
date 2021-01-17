@@ -1,0 +1,35 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* margin-top: 2%; */
+    background-color: #8DCFE9;
+    /* width : 70vw;
+    height: 60vw; */
+    /* position: absolute;
+    top: 0; left: 0; */
+    border-radius: 8px;
+    margin: auto;
+}
+
+
+
+.imgWorkFeed {
+    height : 42vw;
+    margin: 2%;
+    border-radius: 8px;
+}
+
+.usernameWorkFeed {
+    margin: 2%;
+    margin-bottom: 0%;
+    border-radius: 8px;
+    height : 40px;
+    font-size: 32px;
+    border-radius: 8px;
+    padding: .5%;
+    background-color: #ffffff;
+    font-family:'Verdana', Sans-serif;
+    align-content: center;
+    justify-content: flex-start;
+}

@@ -3,6 +3,7 @@ import "../../utilities.css";
 import "./account.css"
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { get } from "../../utilities";
+import Post from "../modules/Post.js";
 const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
 
 class Account extends Component {
@@ -29,7 +30,9 @@ class Account extends Component {
         if (hasWorks) {
             //workObj is each work in this.state.works
             worksList = this.state.works.map((workObj) => (
-                <img src={workObj.source}/>
+                <div className="spacing">
+                    <Post creator_name={workObj.creator_name} pic={workObj.source} />
+                </div>
             ));
 
         } else {
@@ -49,8 +52,9 @@ class Account extends Component {
             <div>
             {this.props.userName}
             </div>   
-            
-            {worksList}
+            <div className="myWorks">
+                {worksList}
+            </div>
            </>
         )
     }

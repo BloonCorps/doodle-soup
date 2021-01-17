@@ -31,37 +31,20 @@ class Feed extends Component {
     if (hasWorks) {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
-              <div className="worksFeed">
-                  <div className="usernameWorkFeed">{workObj.creator_name}</div>
-                  <img className="imgWorkFeed" src={workObj.source}/>
-              </div>
+            <div className="spacing">
+              <Post creator_name={workObj.creator_name} pic={workObj.source} />
+            </div>
           ));
 
     } else {
         worksList = <div>You have no works</div>;
     }
 
-    let drawingsList = null;
-    const hasDrawings = this.state.works.length !== 0;
-    if (hasDrawings) {
-      drawingsList = this.state.works.map((DrawingObj) => (
-        <Post
-          key={`Card_${DrawingObj._id}`}
-          _id={DrawingObj._id}
-          creator_name={DrawingObj.creator_name}
-          creator_id={DrawingObj.creator_id}
-          userId={this.props.userId}
-          content={DrawingObj.content}
-        />
-      ));
-    } else {
-      drawingsList = <div>No drawings!</div>;
-    }
     return (
       <>
-        {/* {this.props.userId && <NewStory addNewStory={this.addNewStory} />} */}
-        {/**drawingsList*/}
-        {worksList}
+        <div className="feed">
+          {worksList}
+        </div>
       </>
     );
   }

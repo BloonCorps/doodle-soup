@@ -17,7 +17,10 @@ class Post extends Component {
   render() {
     return (
       
-      <div> HERES A POST OR SMTH</div>
+      <div className="card"> 
+        <div className="usernameWorkFeed">{this.props.creator_name}</div>
+        <img className="imgWorkFeed" src={this.props.pic}/>
+      </div>
     );
   }
 }

@@ -1,0 +1,19 @@
+.myWorks {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width : 20%;
+    margin: 20px;
+    justify-content: center;
+    
+}
+
+.spacing {
+    display: flex;
+    
+    margin: 2%;
+    margin-bottom: 0%;
+    justify-content: flex-start;
+    
+}
