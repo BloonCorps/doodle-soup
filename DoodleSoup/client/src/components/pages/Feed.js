@@ -31,9 +31,9 @@ class Feed extends Component {
     if (hasWorks) {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
-              <div>
-              {workObj.creator_name}
-              <img src={workObj.source}/>
+              <div className="worksFeed">
+                  <div className="usernameWorkFeed">{workObj.creator_name}</div>
+                  <img className="imgWorkFeed" src={workObj.source}/>
               </div>
           ));
 

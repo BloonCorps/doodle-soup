@@ -1,1 +1,33 @@
 /* Fill me in :) */
+.worksFeed {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 36px;
+    background-color: #8DCFE9;
+    width : 1032px;
+    border-radius: 8px;
+}
+
+.imgWorkFeed {
+    height : 600px;
+    width : 1000px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+}
+
+.usernameWorkFeed {
+    height : 40px;
+    font-size: 32px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    padding: 8px;
+    width : 984px;
+    background-color: #ffffff;
+    font-family:'Verdana', Sans-serif;
+    align-content: center;
+    justify-content: flex-start;
+}
