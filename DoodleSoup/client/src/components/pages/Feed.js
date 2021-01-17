@@ -10,6 +10,7 @@ class Feed extends Component {
     // Initialize Default State
     this.state = {
       drawings: [],
+      works: [],
     };
   }
 
@@ -26,11 +27,30 @@ class Feed extends Component {
     //Jessica I dont know what the fuck you were trying to do above but what I
     //have down here works
     get("/api/allworks").then((worksArray) => {
+      console.log(worksArray);
       this.setState({works: worksArray});
     });
   }
 
   render() {
+    let worksList = undefined;
+    const hasWorks = this.state.works.length !== 0;
+
+    console.log(worksList);
+
+    if (hasWorks) {
+          //workObj is each work in this.state.works
+          worksList = this.state.works.map((workObj) => (
+              <div>
+              {workObj.creator_name}
+              <img src={workObj.source}/>
+              </div>
+          ));
+
+    } else {
+        worksList = <div>You have no works</div>;
+    }
+
     let drawingsList = null;
     const hasDrawings = this.state.drawings.length !== 0;
     if (hasDrawings) {
@@ -50,7 +70,8 @@ class Feed extends Component {
     return (
       <>
         {/* {this.props.userId && <NewStory addNewStory={this.addNewStory} />} */}
-        {drawingsList}
+        {/**drawingsList*/}
+        {worksList}
       </>
     );
   }
