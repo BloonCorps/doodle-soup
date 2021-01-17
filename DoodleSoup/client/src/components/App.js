@@ -64,7 +64,7 @@ class App extends Component {
 
           <Router>
           <NotFound default userId={this.state.userId}/>
-          <Canvas path="/create/" userId={this.state.userId}/>
+          <Canvas path="/create/" userId={this.state.userId} userName= {this.state.userName}/>
           <Account userName= {this.state.userName} path="/account/:userID" userId={this.state.userId} handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
           </Router>

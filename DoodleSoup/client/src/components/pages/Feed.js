@@ -22,6 +22,12 @@ class Feed extends Component {
         this.setState({ drawings: this.state.drawings.concat([drawingObj]) });
       });
     });
+
+    //Jessica I dont know what the fuck you were trying to do above but what I
+    //have down here works
+    get("/api/allworks").then((worksArray) => {
+      this.setState({works: worksArray});
+    });
   }
 
   render() {

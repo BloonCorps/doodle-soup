@@ -55,14 +55,20 @@ class Canvas extends Component {
     //calls a function outside of React JS that is written
     //in javascript to save image
     submitDrawing = () => {
-        //downloadImage(myCanvas);
+        
         let canvasURI = toURI(myCanvas);
+        console.log(this.props.userName);
         const body = {
             //We dont need to stringify creator_id or source
+            creator_name: this.props.userName,
             creator_id: this.props.userId,
             source: canvasURI,
         };
         post("/api/work", body);
+    }
+
+    downloadDrawing = () => {
+        downloadImage(myCanvas);
     }
 
     componentDidMount() {
@@ -337,6 +343,7 @@ class Canvas extends Component {
                     <button className="techButton clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" onClick={this.undoStroke}> </button>
                     <button className="techButton submit" onClick={this.submitDrawing}> </button>
+                    <button className="techButton submit" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
         )
