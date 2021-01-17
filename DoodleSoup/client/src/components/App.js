@@ -9,9 +9,7 @@ import Account from "./pages/account.js";
 
 
 import "../utilities.css";
-
 import { socket } from "../client-socket.js";
-
 import { get, post } from "../utilities";
 
 class App extends Component {

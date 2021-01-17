@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import "./canvas.css"
+import "./canvas.css";
+import { post } from "../../utilities";
 
 //Hardcoded canvas size and other variables
 let CANVASWIDTH = 1000;
@@ -37,7 +38,7 @@ const downloadImage = (myCanvas) => {
 const toURI = (myCanvas) => {
     const dataURI = myCanvas.toDataURL();
     console.log(dataURI);
-    return datURI;
+    return dataURI;
 }
 
 class Canvas extends Component {
@@ -54,14 +55,15 @@ class Canvas extends Component {
     //calls a function outside of React JS that is written
     //in javascript to save image
     submitDrawing = () => {
-        downloadImage(myCanvas);
+        //downloadImage(myCanvas);
+        let canvasURI = JSON.stringify(toURI(myCanvas));
+        console.log(this.props.userID);
+        const body = {
+            creator_id: this.props.userId,
+            source: canvasURI,
+        };
+        post("/api/work", body);
     }
-
-    addDrawing = () => {
-        canvasURI = toURI(myCanvas);
-        const body = {imageURI: canvasURI};
-        post("/api/save", body);
-    };
 
     componentDidMount() {
         document.title = "Create!";
@@ -78,6 +80,7 @@ class Canvas extends Component {
 
         window.addEventListener("resize", this.recalibrate);
         this.clearAll()
+
     };
 
     recalibrate = () => {

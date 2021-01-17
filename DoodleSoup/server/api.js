@@ -7,6 +7,7 @@
 const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
+const Drawing = require("./models/drawing")
 // import authentication library
 const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
@@ -15,15 +16,14 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 
+//3 User authentication functions below
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
-
 router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
     return res.send({});
   }
-
   res.send(req.user);
 });
 
@@ -48,8 +48,12 @@ router.get("/works", (req, res) => {
   );
 });
 
-router.get("/test", (req, res) => {
-  res.send({ message: "Wow I made my first API! In its own file!" });
+router.post("/work", (req, res) => {
+  const newDrawing = new Drawing({
+    creator_id: 123456, //req.body.userID,
+    source: req.body.source,
+  });
+  newDrawing.save().then((drawing) => res.send(drawing));
 });
 
 // anything else falls to this "not found" case
