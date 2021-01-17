@@ -43,14 +43,16 @@ router.get("/drawings", (req, res) => {
 });
 
 router.get("/works", (req, res) => {
-  res.send(
-    worksDatabase.worksList
-  );
+  Drawing.find({ creator_id: req.query.userId }).then((drawings) => {
+    res.send(drawings);
+  });
 });
 
+//Saves the drawing to mongoDB
 router.post("/work", (req, res) => {
+  console.log(req.body.creator_id);
   const newDrawing = new Drawing({
-    creator_id: 123456, //req.body.userID,
+    creator_id: req.body.creator_id, 
     source: req.body.source,
   });
   newDrawing.save().then((drawing) => res.send(drawing));

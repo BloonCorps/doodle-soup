@@ -56,9 +56,9 @@ class Canvas extends Component {
     //in javascript to save image
     submitDrawing = () => {
         //downloadImage(myCanvas);
-        let canvasURI = JSON.stringify(toURI(myCanvas));
-        console.log(this.props.userID);
+        let canvasURI = toURI(myCanvas);
         const body = {
+            //We dont need to stringify creator_id or source
             creator_id: this.props.userId,
             source: canvasURI,
         };

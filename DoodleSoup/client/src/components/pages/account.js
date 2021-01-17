@@ -15,7 +15,8 @@ class Account extends Component {
 
     componentDidMount() {
         //worksArray is returned by the API
-        get("/api/works", {userID: this.props.userID}).then((worksArray) => {
+        get("/api/works", {userId: this.props.userId}).then((worksArray) => {
+            console.log(worksArray);
             this.setState({works: worksArray});
         });
     }
@@ -28,7 +29,7 @@ class Account extends Component {
         if (hasWorks) {
             //workObj is each work in this.state.works
             worksList = this.state.works.map((workObj) => (
-                <img src={workObj.data}/>
+                <img src={workObj.source}/>
             ));
 
         } else {

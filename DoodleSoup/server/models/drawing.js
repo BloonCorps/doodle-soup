@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 //A drawing's source is a URI that represents it
 //and the creator is an ID
 const DrawingSchema = new mongoose.Schema({
-  creator_id: Number, //ID number in mongoDB
+  creator_id: String, //ID number in mongoDB
   source: String,
 });
 
