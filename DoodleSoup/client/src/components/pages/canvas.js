@@ -17,10 +17,8 @@ let horizontalShift = 0;
 const RADIUSSHIFT = 11;
 
 //Save functionality, https://www.youtube.com/watch?v=YoVJWZrS2WU&ab_channel=dcode
-const URI = (myCanvas) => {
+const downloadImage = (myCanvas) => {
     const dataURI = myCanvas.toDataURL();
-    console.log(dataURI);
-
     //Enable the if statement to add functionality for internet explorer
 
     //if (windows.navigator.msSaveBlob) {
@@ -33,6 +31,13 @@ const URI = (myCanvas) => {
         temp.click();
         document.body.removeChild(temp);
     //}
+}
+
+//Converts the canvas image to an URI
+const toURI = (myCanvas) => {
+    const dataURI = myCanvas.toDataURL();
+    console.log(dataURI);
+    return datURI;
 }
 
 class Canvas extends Component {
@@ -49,8 +54,14 @@ class Canvas extends Component {
     //calls a function outside of React JS that is written
     //in javascript to save image
     submitDrawing = () => {
-        URI(myCanvas);
+        downloadImage(myCanvas);
     }
+
+    addDrawing = () => {
+        canvasURI = toURI(myCanvas);
+        const body = {imageURI: canvasURI};
+        post("/api/save", body);
+    };
 
     componentDidMount() {
         document.title = "Create!";
