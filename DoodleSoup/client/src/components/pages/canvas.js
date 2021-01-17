@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./canvas.css"
 
-//UNDO FILL DOESNT WORK
+//CANVAS DOESNT WORK WHEN TOP LEFT CORNER NOT IN SCREEN
 
 let CANVASWIDTH = 1000;
 let CANVASHEIGHT = 600
@@ -10,7 +10,7 @@ let CANVASHEIGHT = 600
 
 let myCanvas = null;
 let context = null;
-
+//UNDO FILL DOESNT WORK
 let tempPoints = [];
 let strokePaths = [];
 
@@ -318,55 +318,46 @@ class Canvas extends Component {
             {strokeColor : "rgba(255, 255, 255, 255)"}
         )
     }
-
     changeLime = () => {
         this.setState(
             {strokeColor : "rgba(0, 255, 0, 255)"}
         )
     }
-
     changeCoral = () => {
         this.setState(
             {strokeColor : "rgba(255, 127, 80, 255)"}
         )
     }
-
     changeDarkRed = () => {
         this.setState(
             {strokeColor : "rgba(100, 0, 0, 255)"}
         )
     }
-
     changeViolet = () => {
         this.setState(
             {strokeColor : "rgba(238, 130, 239, 255)"}
         )
     }
-
     changeNavy = () => {
         this.setState(
             {strokeColor : "rgba(0, 0, 128, 255)"}
         )
     }
-
     changeCyan = () => {
         this.setState(
             {strokeColor : "rgba(0, 255, 255, 255)"}
         )
     }
-
     changeLightGray = () => {
         this.setState(
             {strokeColor : "rgba(211, 211, 211, 255)"}
         )
     }
-
     changeGoldenRod = () => {
         this.setState(
             {strokeColor : "rgba(218, 165, 32, 255)"}
         )
     }
-
     changeIndigo = () => {
         this.setState(
             {strokeColor : "rgba(75, 0, 130, 255)"}
