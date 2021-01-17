@@ -13,6 +13,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 320px;
+    margin: 10px;
 }
 
 .controlPanel {
@@ -20,6 +21,7 @@
     justify-content: center;
     align-items: center;
     margin: 0;
+    flex-wrap: wrap;
 }
 
 .canvas-color {
@@ -56,12 +58,13 @@
 .submit {background:url(../images/Submit_64x64.png) no-repeat;}
 .undo {background:url(../images/Undo_64x64.png) no-repeat;}
 .fill {background:url(../images/Fill_64x64.png) no-repeat;}
+.download {background:url(../images/Download_64x64.png) no-repeat;}
 
 .pencil:hover {background:url(../images/Pencil1_64x64.png) no-repeat;}
 .clear:hover {background:url(../images/Clear1_64x64.png) no-repeat;}
 .submit:hover {background:url(../images/Submit1_64x64.png) no-repeat;}
 .undo:hover {background:url(../images/Undo1_64x64.png) no-repeat;}
-.fill:hover {background:url(../images/Fill1_64x64.png) no-repeat;}
+.download:hover {background:url(../images/Download1_64x64.png) no-repeat;}
 
 .techButton {
     height: 64px;
@@ -79,5 +82,5 @@
     border: 1px solid white;
     text-align: center;
     font-size: 24px;
-    font-family:'Gill Sans';
+    font-family: "Comic", serif;
 }

@@ -19,14 +19,16 @@ class NavBar extends Component {
       <nav className="navContainer">
         <div className="navTitle">DoodleSoup</div>
         <div className="navLink">
+
           <Link to="/feed/" className="navButton">
             Feed
           </Link>
           <Link to="/create/" className="navButton">
             Create
           </Link>
-          <Link to="/account/" className="navButton">
-            Account
+
+          <Link to={`/account/${this.props.userId}`} className="navButton">
+              Profile
           </Link>
           
         </div>

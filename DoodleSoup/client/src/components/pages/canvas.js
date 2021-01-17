@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import "./canvas.css"
+import "./canvas.css";
+import { post } from "../../utilities";
 
-//CANVAS DOESNT WORK WHEN TOP LEFT CORNER NOT IN SCREEN
-
+//Hardcoded canvas size and other variables
 let CANVASWIDTH = 1000;
-let CANVASHEIGHT = 600
-;
-
+let CANVASHEIGHT = 600;
 let myCanvas = null;
 let context = null;
-//UNDO FILL DOESNT WORK
 let tempPoints = [];
 let strokePaths = [];
-
 let verticalShift = 0;
 let horizontalShift = 0;
 
@@ -21,21 +17,60 @@ let horizontalShift = 0;
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
 const RADIUSSHIFT = 11;
 
+//Save functionality, https://www.youtube.com/watch?v=YoVJWZrS2WU&ab_channel=dcode
+const downloadImage = (myCanvas) => {
+    const dataURI = myCanvas.toDataURL();
+    //Enable the if statement to add functionality for internet explorer
+
+    //if (windows.navigator.msSaveBlob) {
+    //    window.navigator.msSaveBlob(myCanvas.msToBlob(), "canvas-image.png");
+    //} else {
+        const temp = document.createElement("a");
+        document.body.appendChild(temp);
+        temp.href = myCanvas.toDataURL();
+        temp.download = "canvas-image.png";
+        temp.click();
+        document.body.removeChild(temp);
+    //}
+}
+
+//Converts the canvas image to an URI
+const toURI = (myCanvas) => {
+    const dataURI = myCanvas.toDataURL();
+    console.log(dataURI);
+    return dataURI;
+}
+
 class Canvas extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            drawing : false,
-
-            strokeSize : 10,
-            strokeColor : "rgba(0, 0, 0, 255)", 
-
-            action : 'drawing'
+            drawing: false,
+            strokeSize: 10,
+            strokeColor: "rgba(0, 0, 0, 255)", 
+            action: 'drawing'
         };
     };
 
-    //TECH
+    //calls a function outside of React JS that is written
+    //in javascript to save image
+    submitDrawing = () => {
+        
+        let canvasURI = toURI(myCanvas);
+        console.log(this.props.userName);
+        const body = {
+            //We dont need to stringify creator_id or source
+            creator_name: this.props.userName,
+            creator_id: this.props.userId,
+            source: canvasURI,
+        };
+        post("/api/work", body);
+    }
+
+    downloadDrawing = () => {
+        downloadImage(myCanvas);
+    }
+
     componentDidMount() {
         document.title = "Create!";
         myCanvas = document.querySelector('.canvas');
@@ -51,6 +86,7 @@ class Canvas extends Component {
 
         window.addEventListener("resize", this.recalibrate);
         this.clearAll()
+
     };
 
     recalibrate = () => {
@@ -170,10 +206,8 @@ class Canvas extends Component {
         let agenda = [arrayIndex];
         let visited = new Set();
         visited.add(arrayIndex)
-
         let image = context.getImageData(0, 0, CANVASWIDTH, CANVASHEIGHT)
         let imageData = image.data;
-
         let colorToChange = [imageData[arrayIndex], imageData[arrayIndex + 1], imageData[arrayIndex + 2], imageData[arrayIndex + 3]]
 
         while (agenda.length != 0) {
@@ -211,14 +245,11 @@ class Canvas extends Component {
         imageData[pixelPos] = color[0];
         imageData[pixelPos + 1] = color[1];
         imageData[pixelPos + 2] = color[2];
-
         imageData[pixelPos + 3] = 255;
     }
 
-    //UNDO
     undoStroke = () => {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-
         this.recreatePaths()
         let temp = [...strokePaths]
         temp.pop()
@@ -228,7 +259,6 @@ class Canvas extends Component {
     recreatePaths = () => {
         // draw all the paths in the paths array
         let stroke =  null;
-
         let temp = strokePaths.slice(0, -1)
         temp.forEach(stroke => 
             {
@@ -237,10 +267,8 @@ class Canvas extends Component {
                 } else {
                     //Recreate Stroke
                     this.initializeDrawing(stroke[0].x, stroke[0].y, stroke[0].color, stroke[0].size, true)
-            
                     let connectedStroke = stroke.slice(1);
                     let coor = null;
-
                     //Redraw Strokes
                     connectedStroke.forEach(coor => {this.drawing(coor.x, coor.y, coor.color, coor.size, true)})
                     this.setState({drawing : false}
@@ -254,127 +282,38 @@ class Canvas extends Component {
     clearAll = () => {
         context.fillStyle = "rgba(255, 255, 255, 255)";
         context.fillRect(0, 0, myCanvas.width, myCanvas.height);
-
         strokePaths = [];
         tempPoints = [];
     }
 
-    //Change Stroke Attributes
-    changeStrokeSize = (event) => {
-        this.setState({strokeSize : event.target.value})
-    }
-    changeRed = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 0, 0, 255)"}
-        )
-    }
-    changeOrange = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 165, 0, 255)"}
-        )
-    }
-    changeYellow = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 255, 0, 255)"}
-        )
-    }
-    changeGreen = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 128, 0, 255)"}
-        )
-    }
-    changeBlue = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 0, 255, 255)"}
-        )
-    }
-    changePurple = () => {
-        this.setState(
-            {strokeColor : "rgba(128, 0, 128, 255)"}
-        )
-    }
-    changePink = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 192, 203, 255)"}
-        )
-    }
-    changeBrown = () => {
-        this.setState(
-            {strokeColor : "rgba(165, 42, 42, 255)"}
-        )
-    }
-    changeBlack = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 0, 0, 255)"}
-        )
-    }
-    changeGrey = () => {
-        this.setState(
-            {strokeColor : "rgba(128, 128, 128, 255)"}
-        )
-    }
-    changeWhite = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 255, 255, 255)"}
-        )
-    }
-    changeLime = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 255, 0, 255)"}
-        )
-    }
-    changeCoral = () => {
-        this.setState(
-            {strokeColor : "rgba(255, 127, 80, 255)"}
-        )
-    }
-    changeDarkRed = () => {
-        this.setState(
-            {strokeColor : "rgba(100, 0, 0, 255)"}
-        )
-    }
-    changeViolet = () => {
-        this.setState(
-            {strokeColor : "rgba(238, 130, 239, 255)"}
-        )
-    }
-    changeNavy = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 0, 128, 255)"}
-        )
-    }
-    changeCyan = () => {
-        this.setState(
-            {strokeColor : "rgba(0, 255, 255, 255)"}
-        )
-    }
-    changeLightGray = () => {
-        this.setState(
-            {strokeColor : "rgba(211, 211, 211, 255)"}
-        )
-    }
-    changeGoldenRod = () => {
-        this.setState(
-            {strokeColor : "rgba(218, 165, 32, 255)"}
-        )
-    }
-    changeIndigo = () => {
-        this.setState(
-            {strokeColor : "rgba(75, 0, 130, 255)"}
-        )
-    }
-
-    //SUBMIT
-    submitDrawing = () => {
-        //TODO
-    }
-
+    //Change brush color
+    changeStrokeSize = (event) => {this.setState({strokeSize : event.target.value})}
+    changeRed = () => {this.setState({strokeColor : "rgba(255, 0, 0, 255)"})}
+    changeOrange = () => {this.setState({strokeColor : "rgba(255, 165, 0, 255)"})}
+    changeYellow = () => {this.setState({strokeColor : "rgba(255, 255, 0, 255)"})}
+    changeGreen = () => {this.setState({strokeColor : "rgba(0, 128, 0, 255)"})}
+    changeBlue = () => {this.setState({strokeColor : "rgba(0, 0, 255, 255)"})}
+    changePurple = () => {this.setState({strokeColor : "rgba(128, 0, 128, 255)"})}
+    changePink = () => {this.setState({strokeColor : "rgba(255, 192, 203, 255)"})}
+    changeBrown = () => {this.setState({strokeColor : "rgba(165, 42, 42, 255)"})}
+    changeBlack = () => {this.setState({strokeColor : "rgba(0, 0, 0, 255)"})}
+    changeGrey = () => {this.setState({strokeColor : "rgba(128, 128, 128, 255)"})}
+    changeWhite = () => {this.setState({strokeColor : "rgba(255, 255, 255, 255)"})}
+    changeLime = () => {this.setState({strokeColor : "rgba(0, 255, 0, 255)"})}
+    changeCoral = () => {this.setState({strokeColor : "rgba(255, 127, 80, 255)"})}
+    changeDarkRed = () => {this.setState({strokeColor : "rgba(100, 0, 0, 255)"})}
+    changeViolet = () => {this.setState({strokeColor : "rgba(238, 130, 239, 255)"})}
+    changeNavy = () => {this.setState({strokeColor : "rgba(0, 0, 128, 255)"})}
+    changeCyan = () => {this.setState({strokeColor : "rgba(0, 255, 255, 255)"})}
+    changeLightGray = () => {this.setState({strokeColor : "rgba(211, 211, 211, 255)"})}
+    changeGoldenRod = () => {this.setState({strokeColor : "rgba(218, 165, 32, 255)"})}
+    changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
-
+                {/**Color panel */} 
                 <div className="controlPanel">
                     <div className="colorPanel">
                         <button className="canvas-color white" onClick={this.changeWhite}></button>  
@@ -387,7 +326,6 @@ class Canvas extends Component {
                         <button className="canvas-color purple" onClick={this.changePurple}></button> 
                         <button className="canvas-color violet" onClick={this.changeViolet}></button>   
                         <button className="canvas-color pink" onClick={this.changePink}></button> 
-
                         <button className="canvas-color black" onClick={this.changeBlack}></button>  
                         <button className="canvas-color grey" onClick={this.changeGrey}></button>  
                         <button className="canvas-color darkRed" onClick={this.changeDarkRed}></button>  
@@ -399,13 +337,13 @@ class Canvas extends Component {
                         <button className="canvas-color navy" onClick={this.changeNavy}></button>  
                         <button className="canvas-color brown" onClick={this.changeBrown}></button>  
                     </div>
-
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
                     <button className="techButton pencil" onClick={this.drawingAction}> </button>
                     <button className="techButton fill" onClick={this.fillingAction}> </button>
                     <button className="techButton clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" onClick={this.undoStroke}> </button>
                     <button className="techButton submit" onClick={this.submitDrawing}> </button>
+                    <button className="techButton download" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
         )

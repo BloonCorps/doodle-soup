@@ -9,9 +9,7 @@ import Account from "./pages/account.js";
 
 
 import "../utilities.css";
-
 import { socket } from "../client-socket.js";
-
 import { get, post } from "../utilities";
 
 class App extends Component {
@@ -58,19 +56,21 @@ class App extends Component {
           userId={this.state.userId}
           /> : 
           <>
-          <NavBar />
+
+          <NavBar 
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout} 
+          userId={this.state.userId}/>
+
           <Router>
-         
           <NotFound default userId={this.state.userId}/>
-          <Canvas path="/create/" userId={this.state.userId}/>
-          <Account path="/account/" 
-            userId={this.state.userId} 
-            handleLogout={this.handleLogout}/>
+          <Canvas path="/create/" userId={this.state.userId} userName= {this.state.userName}/>
+          <Account userName= {this.state.userName} path="/account/:userID" userId={this.state.userId} handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
-          
-        </Router>
+          </Router>
+
         </>
-          }
+        }
         {/* <Location>
           {locationProps => (
              (locationProps.location.pathname === "/") ? null : (

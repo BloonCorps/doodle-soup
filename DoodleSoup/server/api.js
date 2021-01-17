@@ -5,28 +5,25 @@
 | This file defines the routes for your server.
 */
 const express = require("express");
-
 // import models so we can interact with the database
 const User = require("./models/user");
-
+const Drawing = require("./models/drawing")
 // import authentication library
 const auth = require("./auth");
-
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
 
+//3 User authentication functions below
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
-
 router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
     return res.send({});
   }
-
   res.send(req.user);
 });
 
@@ -45,6 +42,29 @@ router.get("/drawings", (req, res) => {
   // Drawing.find({}).then((drawings) => res.send(drawings));
 });
 
+//finds the work of specific authors for use on account page
+router.get("/works", (req, res) => {
+  Drawing.find({ creator_id: req.query.userId }).then((drawings) => {
+    res.send(drawings);
+  });
+});
+
+//finds all works for display on feed page
+router.get("/allworks", (req, res) => {
+  Drawing.find().then((drawings) => {
+    res.send(drawings);
+  });
+});
+
+//Saves the drawing to mongoDB
+router.post("/work", (req, res) => {
+  const newDrawing = new Drawing({
+    creator_name: req.body.creator_name,
+    creator_id: req.body.creator_id, 
+    source: req.body.source,
+  });
+  newDrawing.save().then((drawing) => res.send(drawing));
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
