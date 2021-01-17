@@ -16,6 +16,25 @@ let horizontalShift = 0;
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
 const RADIUSSHIFT = 11;
 
+//Save functionality, https://www.youtube.com/watch?v=YoVJWZrS2WU&ab_channel=dcode
+const URI = (myCanvas) => {
+    const dataURI = myCanvas.toDataURL();
+    console.log(dataURI);
+
+    //Enable the if statement to add functionality for internet explorer
+
+    //if (windows.navigator.msSaveBlob) {
+    //    window.navigator.msSaveBlob(myCanvas.msToBlob(), "canvas-image.png");
+    //} else {
+        const temp = document.createElement("a");
+        document.body.appendChild(temp);
+        temp.href = myCanvas.toDataURL();
+        temp.download = "canvas-image.png";
+        temp.click();
+        document.body.removeChild(temp);
+    //}
+}
+
 class Canvas extends Component {
     constructor(props) {
         super(props);
@@ -26,6 +45,12 @@ class Canvas extends Component {
             action: 'drawing'
         };
     };
+
+    //calls a function outside of React JS that is written
+    //in javascript to save image
+    submitDrawing = () => {
+        URI(myCanvas);
+    }
 
     componentDidMount() {
         document.title = "Create!";
@@ -263,10 +288,6 @@ class Canvas extends Component {
     changeLightGray = () => {this.setState({strokeColor : "rgba(211, 211, 211, 255)"})}
     changeGoldenRod = () => {this.setState({strokeColor : "rgba(218, 165, 32, 255)"})}
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
-
-    submitDrawing = () => {
-        //TODO
-    }
 
     render() {
         return (
