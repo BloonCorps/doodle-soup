@@ -15,11 +15,7 @@ class Account extends Component {
 
     componentDidMount() {
         //worksArray is returned by the API
-        {/**get("/api/works").then((worksArray) => {
-            this.setState({works: []});
-        })*/}
-
-        get("/api/works").then((worksArray) => {
+        get("/api/works", {userID: this.props.userID}).then((worksArray) => {
             this.setState({works: worksArray});
         });
     }
