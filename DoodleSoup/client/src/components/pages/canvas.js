@@ -4,8 +4,9 @@ import "./canvas.css";
 import { post } from "../../utilities";
 
 //Hardcoded canvas size and other variables
-let CANVASWIDTH = 1000;
-let CANVASHEIGHT = 600;
+const CANVASWIDTH = 1000;
+const CANVASHEIGHT = 600;
+const FILLVAR = 50
 let myCanvas = null;
 let context = null;
 let tempPoints = [];
@@ -232,7 +233,11 @@ class Canvas extends Component {
     findNeighbors = (index, visited, colorCheck, imageData) => {
         let contestants = [index - 4, index + 4, index + 4*CANVASWIDTH, index - 4*CANVASWIDTH]
         let bounds = contestants.filter(c => c < CANVASWIDTH*CANVASHEIGHT*4 && c > -1 && (visited.has(c)===false));
-        let neighbors = bounds.filter(b => imageData[b] === colorCheck[0] && imageData[b + 1] === colorCheck[1] && imageData[b + 2] === colorCheck[2] && imageData[b + 3] === colorCheck[3])
+        let neighbors = bounds.filter(b => 
+                                      imageData[b] > colorCheck[0] - FILLVAR && imageData[b] < colorCheck[0] + FILLVAR &&
+                                      imageData[b + 1] > colorCheck[1] - FILLVAR && imageData[b + 1] < colorCheck[1] + FILLVAR &&
+                                      imageData[b + 2] > colorCheck[2] - FILLVAR && imageData[b + 2] < colorCheck[2] + FILLVAR &&
+                                      imageData[b + 3] > colorCheck[3] - FILLVAR && imageData[b + 3] < colorCheck[3] + FILLVAR)
         return (neighbors)
     }
 
