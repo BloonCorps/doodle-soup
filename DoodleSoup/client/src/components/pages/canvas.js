@@ -13,8 +13,6 @@ let tempPoints = [];
 let strokePaths = [];
 let verticalShift = 0;
 let horizontalShift = 0;
-let changingClassNameDrawing = "techButton pencil"
-let changingClassNameFilling = "techButton fill"
 
 //const rect = canvas.getBoundingClientRect() <-Fix for positioning
 //https://stackoverflow.com/questions/53960651/how-to-make-an-undo-function-in-canvas <- Undo Button
@@ -317,14 +315,6 @@ class Canvas extends Component {
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
-        if (this.state.action === 'drawing') {
-            changingClassNameDrawing = "techButton pencil buttonSelected"
-            changingClassNameFilling = "techButton fill"
-        }
-        else {
-            changingClassNameDrawing = "techButton pencil"
-            changingClassNameFilling = "techButton fill buttonSelected"
-        }
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
@@ -353,8 +343,8 @@ class Canvas extends Component {
                         <button className={(this.state.strokeColor==="rgba(165, 42, 42, 255)") ? "canvas-color brown buttonSelected" : "canvas-color brown"} onClick={this.changeBrown}></button>  
                     </div>
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                    <button className={changingClassNameDrawing} onClick={this.drawingAction}> </button>
-                    <button className={changingClassNameFilling} onClick={this.fillingAction}> </button>
+                    <button className={(this.state.action==="drawing") ? "techButton pencil buttonSelected" : "techButton pencil"} onClick={this.drawingAction}> </button>
+                    <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} onClick={this.fillingAction}> </button>
                     <button className="techButton clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" onClick={this.undoStroke}> </button>
                     <button className="techButton submit" onClick={this.submitDrawing}> </button>
@@ -364,5 +354,4 @@ class Canvas extends Component {
         )
     }
 }
-
 export default Canvas;
