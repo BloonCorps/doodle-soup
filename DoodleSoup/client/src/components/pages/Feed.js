@@ -10,6 +10,7 @@ class Feed extends Component {
     // Initialize Default State
     this.state = {
       works: [],
+      user: undefined,
     };
   }
 
@@ -20,6 +21,7 @@ class Feed extends Component {
       console.log(worksArray);
       this.setState({works: worksArray.reverse()});
     });
+    get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
   }
 
   render() {

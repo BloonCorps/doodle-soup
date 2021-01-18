@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./canvas.css";
-import { post } from "../../utilities";
+import { post, get } from "../../utilities";
 
 //Hardcoded canvas size and other variables
 const CANVASWIDTH = 1000;
@@ -50,6 +50,7 @@ class Canvas extends Component {
             strokeSize: 10,
             strokeColor: "rgba(0, 0, 0, 255)", 
             action: 'drawing',
+            user: undefined, 
         };
     };
 
@@ -58,10 +59,10 @@ class Canvas extends Component {
     submitDrawing = () => {
         
         let canvasURI = toURI(myCanvas);
-        console.log(this.props.userName);
+        console.log(this.state.user.name);
         const body = {
             //We dont need to stringify creator_id or source
-            creator_name: this.props.userName,
+            creator_name: this.state.user.name,
             creator_id: this.props.userId,
             source: canvasURI,
         };
@@ -73,6 +74,7 @@ class Canvas extends Component {
     }
 
     componentDidMount() {
+        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
         document.title = "Create!";
         myCanvas = document.querySelector('.canvas');
         context = myCanvas.getContext("2d");
