@@ -11,6 +11,7 @@ class Account extends Component {
         super(props);
         this.state = {
             works: [],
+            user: null
         };
     }
 
@@ -20,6 +21,8 @@ class Account extends Component {
             console.log(worksArray);
             this.setState({works: worksArray});
         });
+        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+        console.log(this.state.user)
     }
 
     render () {
@@ -50,7 +53,7 @@ class Account extends Component {
             
             {/**Displays the username */}
             <div>
-            {this.props.userName}
+                { (!this.state.user) ? <div> Loading! </div> : this.state.user.name}
             </div>   
             <div className="myWorks">
                 {worksList}

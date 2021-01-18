@@ -25,10 +25,7 @@ class App extends Component {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id,
-                      userName: user.name,
-                      friends: user.friends,
-                      userGoogleId: user.googleid});
+        this.setState({ userId: user._id });
       }
     });
   }
@@ -65,7 +62,7 @@ class App extends Component {
           <Router>
           <NotFound default userId={this.state.userId}/>
           <Canvas path="/create/" userId={this.state.userId} userName= {this.state.userName}/>
-          <Account userName= {this.state.userName} path="/account/:userID" userId={this.state.userId} handleLogout={this.handleLogout}/>
+          <Account path="/account/:userID" userId={this.state.userId} handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
           </Router>
 
