@@ -35,7 +35,6 @@ class Feed extends Component {
               <Post creator_name={workObj.creator_name} pic={workObj.source} />
             </div>
           ));
-
     } else {
         worksList = <div>You have no works</div>;
     }

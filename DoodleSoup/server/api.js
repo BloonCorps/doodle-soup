@@ -8,8 +8,10 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Drawing = require("./models/drawing")
+
 // import authentication library
 const auth = require("./auth");
+
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
