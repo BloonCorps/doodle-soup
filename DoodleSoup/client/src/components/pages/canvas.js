@@ -6,7 +6,7 @@ import { post } from "../../utilities";
 //Hardcoded canvas size and other variables
 const CANVASWIDTH = 1000;
 const CANVASHEIGHT = 600;
-const FILLVAR = 50
+const FILLVAR = 40;
 let myCanvas = null;
 let context = null;
 let tempPoints = [];
