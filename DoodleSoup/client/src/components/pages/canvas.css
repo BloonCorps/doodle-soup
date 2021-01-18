@@ -30,6 +30,7 @@
     border: none;
     display: inline-block;
     font-size: 16px;
+    outline:none;
   }
 
 .red { background-color: #FE0000; }
@@ -41,7 +42,7 @@
 .brown {background-color: brown;}
 .pink {background-color: pink;}
 .black {background-color: black;}
-.grey{ background-color: gray;}
+.gray{ background-color: gray;}
 .white {background-color: white;}
 .lime {background-color: lime;}
 .coral {background-color: coral;}
@@ -73,6 +74,7 @@
     margin: 10px; 
     border: 1px solid white;
     border-radius: 8px;
+    outline:none;
 }
 
 .sizeButton {
@@ -84,4 +86,8 @@
     text-align: center;
     font-size: 24px;
     font-family: "Comic", serif;
+}
+
+.buttonSelected {
+    border: 2px solid #aee3fd;
 }

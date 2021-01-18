@@ -26,8 +26,6 @@ class Feed extends Component {
     let worksList = undefined;
     const hasWorks = this.state.works.length !== 0;
 
-    console.log(worksList);
-
     if (hasWorks) {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
