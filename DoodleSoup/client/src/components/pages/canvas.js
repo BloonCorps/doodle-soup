@@ -343,12 +343,12 @@ class Canvas extends Component {
                         <button className={(this.state.strokeColor==="rgba(165, 42, 42, 255)") ? "canvas-color brown buttonSelected" : "canvas-color brown"} onClick={this.changeBrown}></button>  
                     </div>
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                    <button className={(this.state.action==="drawing") ? "techButton pencil buttonSelected" : "techButton pencil"} onClick={this.drawingAction}> </button>
-                    <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} onClick={this.fillingAction}> </button>
-                    <button className="techButton clear" onClick={this.clearAll}>  </button>
-                    <button className="techButton undo" onClick={this.undoStroke}> </button>
-                    <button className="techButton submit" onClick={this.submitDrawing}> </button>
-                    <button className="techButton download" onClick={this.downloadDrawing}> </button>
+                    <button className={(this.state.action==="drawing") ? "techButton pencil buttonSelected" : "techButton pencil"} title="Pencil" onClick={this.drawingAction}> </button>
+                    <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} title="Filling" onClick={this.fillingAction}> </button>
+                    <button className="techButton clear" title="Clear" onClick={this.clearAll}>  </button>
+                    <button className="techButton undo" title="Undo" onClick={this.undoStroke}> </button>
+                    <button className="techButton submit" title="Submit" onClick={this.submitDrawing}> </button>
+                    <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
         )
