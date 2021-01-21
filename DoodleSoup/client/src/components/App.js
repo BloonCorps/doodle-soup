@@ -28,14 +28,15 @@ class App extends Component {
         this.setState({ userId: user._id });
       }
     });
+    
   }
 
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id}, () => navigate("/feed/"));
       post("/api/initsocket", { socketid: socket.id });
+      this.setState({ userId: user._id, }, () => navigate("/feed/"));
     });
   };
 
@@ -61,7 +62,7 @@ class App extends Component {
 
           <Router>
           <NotFound default userId={this.state.userId}/>
-          <Canvas path="/create/" userId={this.state.userId} userName= {this.state.userName}/>
+          <Canvas path="/create/" userId={this.state.userId}/>
           <Account path="/account/:userID" userId={this.state.userId} handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
           </Router>

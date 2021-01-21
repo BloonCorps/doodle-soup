@@ -25,6 +25,7 @@
 }
 
 .canvas-color {
+    cursor: pointer;
     height: 32px;
     width: 32px;
     border: none;
@@ -54,12 +55,12 @@
 .goldenRod {background-color: goldenrod;}
 .indigo {background-color: indigo;}
 
-.pencil {background:url(../images/Pencil_64x64.png) no-repeat;}
-.clear {background:url(../images/Clear_64x64.png) no-repeat;}
-.submit {background:url(../images/Submit_64x64.png) no-repeat;}
-.undo {background:url(../images/Undo_64x64.png) no-repeat;}
-.fill {background:url(../images/Fill_64x64.png) no-repeat;}
-.download {background:url(../images/Download_64x64.png) no-repeat;}
+.pencil {cursor: pointer; background:url(../images/Pencil_64x64.png) no-repeat;}
+.clear {cursor: pointer; background:url(../images/Clear_64x64.png) no-repeat;}
+.submit {cursor: pointer; background:url(../images/Submit_64x64.png) no-repeat;}
+.undo {cursor: pointer; background:url(../images/Undo_64x64.png) no-repeat;}
+.fill {cursor: pointer; background:url(../images/Fill_64x64.png) no-repeat;}
+.download { cursor: pointer; background:url(../images/Download_64x64.png) no-repeat;}
 
 .pencil:hover {background:url(../images/Pencil1_64x64.png) no-repeat;}
 .clear:hover {background:url(../images/Clear1_64x64.png) no-repeat;}
@@ -89,5 +90,59 @@
 }
 
 .buttonSelected {
-    border: 2px solid #9ddaf8;
+    border: 2px solid #000000;
+}
+
+.popUp {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0,0,0,0.4);
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.popUpContent {
+    position: relative;
+    width: 30%;
+    height: 10%;
+    background-color: rgba(255,255,255,1);
+    border-radius: 4px;
+    text-align: center;
+    padding: 30px;
+    font-size: 18px;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer
+}
+
+.submitDrawing {
+    position: absolute;
+    text-align: center;
+    padding: 4px;
+
+    bottom: 16px;
+    right: 16px;
+    border-radius: 4px;
+    background-color: #8DCFE9;
+
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
 import "../../utilities.css";
 import "./canvas.css";
-import { post } from "../../utilities";
+import { post, get } from "../../utilities";
 
 //Hardcoded canvas size and other variables
 const CANVASWIDTH = 1000;
@@ -50,22 +51,32 @@ class Canvas extends Component {
             strokeSize: 10,
             strokeColor: "rgba(0, 0, 0, 255)", 
             action: 'drawing',
+            user: undefined, 
         };
     };
 
     //calls a function outside of React JS that is written
     //in javascript to save image
+    promptSubmit = () => {
+        document.querySelector('.popUp').style.display = 'flex';
+    }
+
+    closePromptSubmit = () => {
+        document.querySelector('.popUp').style.display = 'none';
+    }
+    
     submitDrawing = () => {
         
         let canvasURI = toURI(myCanvas);
-        console.log(this.props.userName);
+        console.log(this.state.user.name);
         const body = {
             //We dont need to stringify creator_id or source
-            creator_name: this.props.userName,
+            creator_name: this.state.user.name,
             creator_id: this.props.userId,
             source: canvasURI,
         };
         post("/api/work", body);
+        this.clearAll()
     }
 
     downloadDrawing = () => {
@@ -73,6 +84,7 @@ class Canvas extends Component {
     }
 
     componentDidMount() {
+        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
         document.title = "Create!";
         myCanvas = document.querySelector('.canvas');
         context = myCanvas.getContext("2d");
@@ -343,12 +355,25 @@ class Canvas extends Component {
                         <button className={(this.state.strokeColor==="rgba(165, 42, 42, 255)") ? "canvas-color brown buttonSelected" : "canvas-color brown"} onClick={this.changeBrown}></button>  
                     </div>
                     <input className="sizeButton" value={this.state.strokeSize} onChange={this.changeStrokeSize}/>
-                    <button className={(this.state.action==="drawing") ? "techButton pencil buttonSelected" : "techButton pencil"} onClick={this.drawingAction}> </button>
-                    <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} onClick={this.fillingAction}> </button>
-                    <button className="techButton clear" onClick={this.clearAll}>  </button>
-                    <button className="techButton undo" onClick={this.undoStroke}> </button>
-                    <button className="techButton submit" onClick={this.submitDrawing}> </button>
-                    <button className="techButton download" onClick={this.downloadDrawing}> </button>
+                    <button className={(this.state.action==="drawing") ? "techButton pencil buttonSelected" : "techButton pencil"} title="Pencil" onClick={this.drawingAction}> </button>
+                    <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} title="Filling" onClick={this.fillingAction}> </button>
+                    <button className="techButton clear" title="Clear" onClick={this.clearAll}>  </button>
+                    <button className="techButton undo" title="Undo" onClick={this.undoStroke}> </button>
+                    <button className="techButton submit" title="Submit" onClick={this.promptSubmit}> </button>
+
+                    <div className ="popUp">
+                        <div className="popUpContent">
+                            <div className="close" onClick={this.closePromptSubmit}> + </div>
+                            <p>Are you sure you want to submit? If you submit your image will be cleared! </p>
+
+                            <Link to="/feed/" className="submitDrawing" title="Submit" onClick={this.submitDrawing}>
+                                <p>Submit!</p>
+                            </Link>
+
+                        </div>
+                    </div>
+                    
+                    <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
         )
