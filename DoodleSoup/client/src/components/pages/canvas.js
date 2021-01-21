@@ -58,10 +58,13 @@ class Canvas extends Component {
     //calls a function outside of React JS that is written
     //in javascript to save image
     promptSubmit = () => {
-        if (window.confirm("Are you sure you want to submit? If you submit your image will be cleared!")) {
-            this.submitDrawing()
-        }
+        document.querySelector('.popUp').style.display = 'flex';
     }
+
+    closePromptSubmit = () => {
+        document.querySelector('.popUp').style.display = 'none';
+    }
+    
     submitDrawing = () => {
         
         let canvasURI = toURI(myCanvas);
@@ -356,7 +359,20 @@ class Canvas extends Component {
                     <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} title="Filling" onClick={this.fillingAction}> </button>
                     <button className="techButton clear" title="Clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" title="Undo" onClick={this.undoStroke}> </button>
-                    <button className="techButton submit" title="Submit" to="/feed/" onClick={this.promptSubmit}> </button>
+                    <button className="techButton submit" title="Submit" onClick={this.promptSubmit}> </button>
+
+                    <div className ="popUp">
+                        <div className="popUpContent">
+                            <div className="close" onClick={this.closePromptSubmit}> + </div>
+                            <p>Are you sure you want to submit? If you submit your image will be cleared! </p>
+
+                            <Link to="/feed/" className="submitDrawing" title="Submit" onClick={this.submitDrawing}>
+                                <p>Submit!</p>
+                            </Link>
+
+                        </div>
+                    </div>
+                    
                     <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
