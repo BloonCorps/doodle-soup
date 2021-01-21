@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-
 import "./Post.css";
 
 import GoogleLogin, { GoogleLogout } from "react-google-login";

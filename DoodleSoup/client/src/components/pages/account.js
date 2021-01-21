@@ -4,6 +4,7 @@ import "./account.css"
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { get } from "../../utilities";
 import Post from "../modules/Post.js";
+
 const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
 
 class Account extends Component {
@@ -16,13 +17,15 @@ class Account extends Component {
     }
 
     componentDidMount() {
+        
+        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+        // console.log(this.state.user)
+
         //worksArray is returned by the API
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
             console.log(worksArray);
             this.setState({works: worksArray});
         });
-        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
-        // console.log(this.state.user)
     }
 
     render () {

@@ -18,7 +18,7 @@ class Feed extends Component {
     document.title = "News Feed";
 
     get("/api/allworks").then((worksArray) => {
-      console.log(worksArray);
+      //console.log(worksArray);
       this.setState({works: worksArray.reverse()});
     });
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
