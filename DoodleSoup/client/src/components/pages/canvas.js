@@ -52,6 +52,7 @@ class Canvas extends Component {
             strokeColor: "rgba(0, 0, 0, 255)", 
             action: 'drawing',
             user: undefined, 
+            //uri: this.props.uri,
         };
     };
 

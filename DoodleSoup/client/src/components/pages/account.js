@@ -16,28 +16,29 @@ class Account extends Component {
         };
     }
 
+    refreshPage = () => {
+        window.location.reload(false);
+    }
+
     componentDidMount() {
-        
         get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
         // console.log(this.state.user)
 
-        //worksArray is returned by the API
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
-            console.log(worksArray);
             this.setState({works: worksArray});
         });
     }
 
     render () {
         //profile will display works, and workslist is what we get from API
-        let worksList = null;
+        let worksList = undefined;
         const hasWorks = this.state.works.length !== 0;
 
         if (hasWorks) {
             //workObj is each work in this.state.works
             worksList = this.state.works.map((workObj) => (
                 <div className="spacing">
-                    <Post creator_name={workObj.creator_name} pic={workObj.source} />
+                    <Post key = {workObj._id} creator_name={workObj.creator_name} pic={workObj.source} />
                 </div>
             ));
 

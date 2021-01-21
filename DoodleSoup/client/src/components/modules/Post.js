@@ -21,6 +21,11 @@ class Post extends Component {
           {this.props.creator_name}
         </Link>
       <img className="imgWorkFeed" src={this.props.pic}/>
+
+          <div className="postButtons">
+            <button className="editPost">Edit</button>
+            <button className="deletePost">Delete</button>
+          </div>
       </div>
     );
   }
