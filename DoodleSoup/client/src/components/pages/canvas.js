@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
 import "../../utilities.css";
 import "./canvas.css";
 import { post, get } from "../../utilities";
@@ -56,6 +57,11 @@ class Canvas extends Component {
 
     //calls a function outside of React JS that is written
     //in javascript to save image
+    promptSubmit = () => {
+        if (window.confirm("Are you sure you want to submit? If you submit your image will be cleared!")) {
+            this.submitDrawing()
+        }
+    }
     submitDrawing = () => {
         
         let canvasURI = toURI(myCanvas);
@@ -67,6 +73,7 @@ class Canvas extends Component {
             source: canvasURI,
         };
         post("/api/work", body);
+        this.clearAll()
     }
 
     downloadDrawing = () => {
@@ -349,7 +356,7 @@ class Canvas extends Component {
                     <button className={(this.state.action==="filling") ? "techButton fill buttonSelected" : "techButton fill"} title="Filling" onClick={this.fillingAction}> </button>
                     <button className="techButton clear" title="Clear" onClick={this.clearAll}>  </button>
                     <button className="techButton undo" title="Undo" onClick={this.undoStroke}> </button>
-                    <button className="techButton submit" title="Submit" onClick={this.submitDrawing}> </button>
+                    <button className="techButton submit" title="Submit" to="/feed/" onClick={this.promptSubmit}> </button>
                     <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
                 </div>
             </div>
