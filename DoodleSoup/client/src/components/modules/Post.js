@@ -16,10 +16,12 @@ class Post extends Component {
 
   render() {
     return (
-      
+      //{this.props.creator_id}
       <div className="card"> 
-        <div className="usernameWorkFeed">{this.props.creator_name}</div>
-        <img className="imgWorkFeed" src={this.props.pic}/>
+        <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
+          {this.props.creator_name}
+        </Link>
+      <img className="imgWorkFeed" src={this.props.pic}/>
       </div>
     );
   }
