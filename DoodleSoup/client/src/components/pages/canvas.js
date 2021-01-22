@@ -112,20 +112,6 @@ class Canvas extends Component {
         window.addEventListener("resize", this.recalibrate);
         window.addEventListener("scroll", this.recalibrate);
         this.clearAll()
-
-        //draws the image if redirected from an edit image link
-        if (this.props.imageId === "new") {
-    
-        }
-        else {
-            get("/api/image", {imageId: this.props.imageId}).then((image) => {
-            this.setState({currentImage: image})
-            //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
-            var img = new Image;
-            img.src = image[0].source;
-            context.drawImage(img, 0, 0)
-            });
-        }
     };
 
     recalibrate = () => {
@@ -353,6 +339,20 @@ class Canvas extends Component {
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
+        //draws the image if redirected from an edit image link
+        if (this.props.imageId === "new") {
+            this.setState({currentImage: 0});
+        }
+        else {
+            get("/api/image", {imageId: this.props.imageId}).then((image) => {
+            this.setState({currentImage: image});
+            //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
+            var img = new Image;
+            img.src = image[0].source;
+            context.drawImage(img, 0, 0)
+            }); 
+        }
+
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>

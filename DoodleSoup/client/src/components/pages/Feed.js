@@ -24,6 +24,16 @@ class Feed extends Component {
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
   }
 
+  componentDidUpdate(prevprops) {
+    Document.title = "News Feed";
+
+    get("/api/allworks").then((worksArray) => {
+      //console.log(worksArray);
+      this.setState({works: worksArray.reverse()});
+    });
+    get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+  }
+
   render() {
     let worksList = undefined;
     const hasWorks = this.state.works.length !== 0;
