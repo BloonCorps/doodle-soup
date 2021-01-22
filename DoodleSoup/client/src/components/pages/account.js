@@ -29,6 +29,16 @@ class Account extends Component {
         });
     }
 
+    componentDidUpdate(prevprops) {
+        //prevprops from previous "page"
+        //helps remount a component
+        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+
+        get("/api/works", {userId: this.props.userId}).then((worksArray) => {
+            this.setState({works: worksArray});
+        });
+    }
+
     render () {
         //profile will display works, and workslist is what we get from API
         let worksList = undefined;

@@ -23,12 +23,13 @@ class NavBar extends Component {
           <Link to="/feed/" className="navButton">
             Feed
           </Link>
-          <Link to="/create/" className="navButton">
+
+          <Link to="/create/new" className="navButton">
             Create
           </Link>
 
           <Link to={`/account/${this.props.userId}`} className="navButton">
-              Profile
+            Profile
           </Link>
           
         </div>

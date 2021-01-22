@@ -18,6 +18,7 @@ class App extends Component {
     super(props);
     this.state = {
       userId: undefined,
+      imageId: "new",
     };
   }
 
@@ -62,23 +63,14 @@ class App extends Component {
 
           <Router>
           <NotFound default userId={this.state.userId}/>
-          <Canvas path="/create/" userId={this.state.userId}/>
+          <Canvas path="/create/:imageId" userId={this.state.userId}/>
+          
           {/* /account/:userId passes down userId as a prop */}
           <Account path="/account/:userId" handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
           </Router>
-
         </>
         }
-        {/* <Location>
-          {locationProps => (
-             (locationProps.location.pathname === "/") ? null : (
-                
-             )
-            //  (!this.state.userId) ? window.location.pathname = "/" : null
-          )}
-        </Location> */}
-        
       </>
     );
   }

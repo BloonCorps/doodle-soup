@@ -57,10 +57,16 @@ router.get("/works", (req, res) => {
   });
 });
 
+//find image by Id
+router.get("/image", (req, res) => {      
+  Drawing.find({ _id: req.query.imageId}).then((drawings) => {
+    //technically only 1 drawing but i dont want to rename and break code
+    res.send(drawings);
+  });
+});
+
 //finds a certain post and deletes it
 router.post("/delete", (req, res) => {
-  console.log(req.body);
-  console.log("attempted");
   Drawing.deleteOne({_id: req.body.imageId}).then((err) => {
     console.log("Deletion executed");
   });

@@ -61,7 +61,7 @@ class Canvas extends Component {
             strokeColor: "rgba(0, 0, 0, 255)", 
             action: 'drawing',
             user: undefined, 
-            //uri: this.props.uri,
+            imageId: this.props.imageId,
         };
     };
 
@@ -94,7 +94,9 @@ class Canvas extends Component {
     }
 
     componentDidMount() {
-        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+        //loads userdata
+        get("/api/user", {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+
         document.title = "Create!";
         myCanvas = document.querySelector('.canvas');
         context = myCanvas.getContext("2d");
@@ -111,6 +113,19 @@ class Canvas extends Component {
         window.addEventListener("scroll", this.recalibrate);
         this.clearAll()
 
+        //draws the image if redirected from an edit image link
+        if (this.props.imageId === "new") {
+    
+        }
+        else {
+            get("/api/image", {imageId: this.props.imageId}).then((image) => {
+            this.setState({currentImage: image})
+            //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
+            var img = new Image;
+            img.src = image[0].source;
+            context.drawImage(img, 0, 0)
+            });
+        }
     };
 
     recalibrate = () => {
