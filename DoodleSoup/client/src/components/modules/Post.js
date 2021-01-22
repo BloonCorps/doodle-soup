@@ -24,19 +24,22 @@ class Post extends Component {
       return (
         //{this.props.creator_id}
         <div className="card"> 
-          <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
+  
+          <div className="header">
+
+            <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
             <p className="usernameContent">
               {this.props.creator_name}
             </p>
-          </Link>
-  
-          <img className="imgWorkFeed" src={this.props.pic}/>
-          <div className="postButtons">
+            </Link>
             <Link className="editPost" to={`/create/${this.props.imageId}`} className="editPost">
               Edit
             </Link>
+
             <button onClick = {this.deletePost} className="deletePost">Delete</button>  
           </div>
+
+          <img className="imgWorkFeed" src={this.props.pic}/>
         </div>)
 
     } else {

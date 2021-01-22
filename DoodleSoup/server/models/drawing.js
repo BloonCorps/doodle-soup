@@ -6,6 +6,7 @@ const DrawingSchema = new mongoose.Schema({
   creator_name: String,
   creator_id: String, //ID number in mongoDB
   source: String,
+  Tags: Array,
 });
 
 module.exports = mongoose.model("drawing", DrawingSchema);

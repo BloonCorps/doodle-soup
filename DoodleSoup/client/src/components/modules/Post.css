@@ -12,8 +12,6 @@
     margin: auto;
 }
 
-
-
 .imgWorkFeed {
     height : 42vw;
     margin: 2%;
@@ -27,30 +25,16 @@
     padding: 0.5% 1% 0.5% 1%;
     background-color: #ffffff;
     height : 40px;
-
     text-decoration: none;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 
-.usernameContent {
-    font-family:'Verdana', Sans-serif;
-    font-size: 32px;
-    color:rgb(21, 34, 219);
-}
-
-.postButtons {
-    display: flex;
-    justify-content: flex-end;
-    text-decoration: none;
-    margin-right: 2%;
-}
-
 .deletePost {
     width: 60px;
     height: 40px;
+    margin-top: 10px;
     background-color: white;
     border: 0px;
     border-radius: 4px;
@@ -61,16 +45,29 @@
     margin-bottom: 10px;
 }
 
+.usernameContent {
+    font-family:'Verdana', Sans-serif;
+    font-size: 32px;
+    color:rgb(21, 34, 219);
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    text-decoration: none;
+    margin-right: 2%;
+}
+
 .editPost {
     width: 60px;
     height: 40px;
+    margin-top: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
     background-color: white;
 
     border: 0px;
     border-radius: 4px;
-
     cursor: pointer;
     
     text-decoration: none;
