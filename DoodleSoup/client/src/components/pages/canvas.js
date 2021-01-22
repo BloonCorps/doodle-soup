@@ -87,7 +87,9 @@ class Canvas extends Component {
             };
             post("/api/updateimage", body);
 
-        } else {
+        } 
+        //if (this.state.currentImage == 0) 
+        else {
             const body = {
                 creator_name: this.state.user.name,
                 creator_id: this.props.userId,
@@ -95,7 +97,6 @@ class Canvas extends Component {
             };
             post("/api/work", body);
         }
-
         this.clearAll()
     }
 
