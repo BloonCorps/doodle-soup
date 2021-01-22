@@ -99,6 +99,7 @@ class Canvas extends Component {
         horizontalShift = myCanvas.getBoundingClientRect().left + RADIUSSHIFT;
 
         window.addEventListener("resize", this.recalibrate);
+        window.addEventListener("scroll", this.recalibrate);
         this.clearAll()
 
     };
