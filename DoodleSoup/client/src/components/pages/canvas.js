@@ -148,10 +148,8 @@ class Canvas extends Component {
         if (this.state.action === "drawing") {
             if (event.type === "mousedown") {
                 this.commenceInitialDrawing(event);
-    
             } else if (event.type === "mouseup") {
                 this.endDrawing();
-    
             } else if (event.type === "mousemove") {
                 this.commenceDrawing(event);
             }
@@ -159,7 +157,6 @@ class Canvas extends Component {
         else {
             if (event.type === "mousedown") {
                 this.startFilling(event);
-    
             } else if (event.type === "mouseup") {
                 this.endFilling();
             }
