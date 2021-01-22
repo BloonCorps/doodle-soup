@@ -12,11 +12,10 @@ class Feed extends Component {
       works: [],
       user: undefined,
     };
+    document.title = "News Feed";
   }
 
   componentDidMount() {
-    document.title = "News Feed";
-
     get("/api/allworks").then((worksArray) => {
       //console.log(worksArray);
       this.setState({works: worksArray.reverse()});
@@ -24,9 +23,8 @@ class Feed extends Component {
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
   }
 
+  //for fast reloading when deleting
   componentDidUpdate(prevprops) {
-    Document.title = "News Feed";
-
     get("/api/allworks").then((worksArray) => {
       //console.log(worksArray);
       this.setState({works: worksArray.reverse()});
