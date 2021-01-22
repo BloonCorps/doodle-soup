@@ -13,6 +13,13 @@ class Post extends Component {
     super(props);
   }
 
+  deletePost = () => {
+    const qeury = {
+        imageId: this.state.imageId,
+    };
+    post("/api/delete", query);
+}
+
   render() {
     return (
       //{this.props.creator_id}
