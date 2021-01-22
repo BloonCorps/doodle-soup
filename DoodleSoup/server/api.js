@@ -89,6 +89,14 @@ router.post("/work", (req, res) => {
   newDrawing.save().then((drawing) => res.send(drawing));
 });
 
+//used to update images
+router.post("/updateimage", (req, res) => {
+  Drawing.findOne({_id: req.body.imageId}).then((drawing) => {
+  drawing.source = req.body.source;
+  drawing.save()
+  });
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

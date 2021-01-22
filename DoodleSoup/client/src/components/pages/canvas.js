@@ -76,16 +76,26 @@ class Canvas extends Component {
     }
     
     submitDrawing = () => {
-        
         let canvasURI = toURI(myCanvas);
-        console.log(this.state.user.name);
-        const body = {
-            //We dont need to stringify creator_id or source
-            creator_name: this.state.user.name,
-            creator_id: this.props.userId,
-            source: canvasURI,
-        };
-        post("/api/work", body);
+
+        if (this.state.currentImage) {
+            const body = {
+                    creator_name: this.state.user.name,
+                    creator_id: this.props.userId,
+                    source: canvasURI,
+                    imageId: this.props.imageId,
+            };
+            post("/api/updateimage", body);
+
+        } else {
+            const body = {
+                creator_name: this.state.user.name,
+                creator_id: this.props.userId,
+                source: canvasURI,
+            };
+            post("/api/work", body);
+        }
+
         this.clearAll()
     }
 
@@ -112,6 +122,20 @@ class Canvas extends Component {
         window.addEventListener("resize", this.recalibrate);
         window.addEventListener("scroll", this.recalibrate);
         this.clearAll()
+
+        //draws the image if redirected from an edit image link
+        if (this.props.imageId === "new") {
+            this.setState({currentImage: 0});
+        }
+        else {
+            get("/api/image", {imageId: this.props.imageId}).then((image) => {
+            this.setState({currentImage: image});
+            //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
+            var img = new Image;
+            img.src = image[0].source;
+            context.drawImage(img, 0, 0)
+            }); 
+        }
     };
 
     recalibrate = () => {
@@ -339,20 +363,6 @@ class Canvas extends Component {
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
-        //draws the image if redirected from an edit image link
-        if (this.props.imageId === "new") {
-            this.setState({currentImage: 0});
-        }
-        else {
-            get("/api/image", {imageId: this.props.imageId}).then((image) => {
-            this.setState({currentImage: image});
-            //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
-            var img = new Image;
-            img.src = image[0].source;
-            context.drawImage(img, 0, 0)
-            }); 
-        }
-
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
@@ -390,7 +400,7 @@ class Canvas extends Component {
                     <div className ="popUp">
                         <div className="popUpContent">
                             <div className="close" onClick={this.closePromptSubmit}> + </div>
-                            <p>Are you sure you want to submit? If you submit your image will be cleared! </p>
+                            <p>Are you sure you want to submit?</p>
 
                             <Link to="/feed/" className="submitDrawing" title="Submit" onClick={this.submitDrawing}>
                                 <p>Submit!</p>
