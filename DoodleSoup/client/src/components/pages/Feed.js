@@ -17,16 +17,14 @@ class Feed extends Component {
 
   componentDidMount() {
     get("/api/allworks").then((worksArray) => {
-      //console.log(worksArray);
       this.setState({works: worksArray.reverse()});
     });
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
   }
 
   //for fast reloading when deleting
-  componentDidUpdate(prevprops) {
+  updatePage = () => {
     get("/api/allworks").then((worksArray) => {
-      //console.log(worksArray);
       this.setState({works: worksArray.reverse()});
     });
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
@@ -40,7 +38,7 @@ class Feed extends Component {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
             <div className="spacing">
-                <Post key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
+                <Post updateFunction = {this.updatePage} key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
             </div>
           ));
     } else {
