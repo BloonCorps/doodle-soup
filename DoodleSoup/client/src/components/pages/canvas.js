@@ -43,6 +43,15 @@ const toURI = (myCanvas) => {
     return dataURI;
 }
 
+const loadImage = (URI, myCanvas) => {
+    var image = URI;
+    var ctx = myCanvas.getContext("2d");
+
+    ctx.drawImage(
+        image, 0, 0
+    )
+}
+
 class Canvas extends Component {
     constructor(props) {
         super(props);

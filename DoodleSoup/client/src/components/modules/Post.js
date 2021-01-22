@@ -19,7 +19,6 @@ class Post extends Component {
     const body = {
         imageId: this.props.imageId,
     };
-    console.log(body);
     post("/api/delete", body);
 }
 
