@@ -32,11 +32,13 @@ class Post extends Component {
               {this.props.creator_name}
             </p>
             </Link>
-            <Link className="editPost" to={`/create/${this.props.imageId}`} className="editPost">
-              Edit
+            <Link to={`/create/${this.props.imageId}`} className="editPost">
+              <p>Edit</p>
             </Link>
 
-            <button onClick = {this.deletePost} className="deletePost">Delete</button>  
+            <Link to={`/feed/`} onClick = {this.deletePost} className="deletePost">
+              <p>Delete</p>
+            </Link>
           </div>
 
           <img className="imgWorkFeed" src={this.props.pic}/>
