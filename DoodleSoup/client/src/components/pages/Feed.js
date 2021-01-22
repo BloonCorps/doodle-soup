@@ -38,7 +38,7 @@ class Feed extends Component {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
             <div className="spacing">
-                <Post updateFunction = {this.updatePage} key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
+                <Post userId = {this.props.userId} posterId = {workObj.creator_id} updateFunction = {this.updatePage} key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
             </div>
           ));
     } else {
