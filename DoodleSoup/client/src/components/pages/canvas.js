@@ -12,6 +12,7 @@ let myCanvas = null;
 let context = null;
 let tempPoints = [];
 let strokePaths = [];
+let tags = [];
 let verticalShift = 0;
 let horizontalShift = 0;
 
@@ -65,8 +66,27 @@ class Canvas extends Component {
         };
     };
 
-    //calls a function outside of React JS that is written
-    //in javascript to save image
+    //Formats input into an array of names
+    tagDecipher = () => {
+        let temp = document.querySelector('.tagCanvas').value
+        let currentName = "";
+        [...temp].forEach(character => 
+            {
+                if (character !== ",") {
+                    currentName = currentName.concat(character)
+                }
+                else {
+                    tags.push(currentName)
+                    currentName = ""
+                }
+            }
+        )
+        if (currentName !== "") {
+            tags.push(currentName)
+        }
+        console.log(tags)
+    }
+
     promptSubmit = () => {
         document.querySelector('.popUp').style.display = 'flex';
     }
@@ -75,6 +95,8 @@ class Canvas extends Component {
         document.querySelector('.popUp').style.display = 'none';
     }
     
+    //calls a function outside of React JS that is written
+    //in javascript to save image
     submitDrawing = () => {
         let canvasURI = toURI(myCanvas);
 
@@ -402,15 +424,19 @@ class Canvas extends Component {
                         <div className="popUpContent">
                             <div className="close" onClick={this.closePromptSubmit}> + </div>
                             <p>Are you sure you want to submit?</p>
-
                             <Link to="/feed/" className="submitDrawing" title="Submit" onClick={this.submitDrawing}>
                                 <p>Submit!</p>
                             </Link>
-
                         </div>
                     </div>
                     
                     <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
+
+                    <div className="taggingFeature">
+                        <input className="tagCanvas" type="text" placeholder="Tag,your,friends! (No spaces after commas)" onSubmit={this.tagDecipher}></input>
+                        {/*Button will be removed later */}
+                        <button className="tagCanvasButton" onClick={this.tagDecipher}><p>Submit</p></button>
+                    </div>
                 </div>
             </div>
         )
