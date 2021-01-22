@@ -27,7 +27,7 @@ class Post extends Component {
   
           <div className="header">
 
-            <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
+            <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeedwithButtons">
             <p className="usernameContent">
               {this.props.creator_name}
             </p>
