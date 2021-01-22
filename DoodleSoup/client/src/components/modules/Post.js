@@ -23,6 +23,12 @@ class Post extends Component {
 }
 
   render() {
+    if (this.props.creator_id === CREATORNAME) {
+      document.querySelector('.postButtons').style.display = 'flex'
+    } else {
+      document.querySelector('.postButtons').style.display = 'none'
+    }
+    
     return (
       //{this.props.creator_id}
       <div className="card"> 
