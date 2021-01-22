@@ -59,9 +59,10 @@ router.get("/works", (req, res) => {
 
 //finds a certain post and deletes it
 router.post("/delete", (req, res) => {
-  Drawing.deleteOne({_id: req.query.imageId}).then((err) => {
-    if (err) return console.log("error in deleting doc");
-    console.log("Success in delete");
+  console.log(req.body);
+  console.log("attempted");
+  Drawing.deleteOne({_id: req.body.imageId}).then((err) => {
+    console.log("Deletion executed");
   });
 });
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import "./Post.css";
+import { post, get } from "../../utilities";
 
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
@@ -14,10 +15,12 @@ class Post extends Component {
   }
 
   deletePost = () => {
-    const qeury = {
-        imageId: this.state.imageId,
+    //console.log(this.props);
+    const body = {
+        imageId: this.props.imageId,
     };
-    post("/api/delete", query);
+    console.log(body);
+    post("/api/delete", body);
 }
 
   render() {
@@ -31,7 +34,7 @@ class Post extends Component {
 
           <div className="postButtons">
             <button className="editPost">Edit</button>
-            <button className="deletePost">Delete</button>
+            <button onClick = {this.deletePost} className="deletePost">Delete</button>
           </div>
       </div>
     );
