@@ -26,7 +26,6 @@ html{
     padding-right: 1.5%;
     text-align: center;
     margin: center;
-
 }
 
 .navButton,
@@ -34,5 +33,5 @@ html{
   color: white;
   opacity: 0.8;
   text-decoration: none;
-  margin-left: 32px;
+  margin-right: 32px;
 }
