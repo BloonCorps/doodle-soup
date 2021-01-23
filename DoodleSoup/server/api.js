@@ -87,6 +87,7 @@ router.post("/work", (req, res) => {
     source: req.body.source,
   });
   newDrawing.save().then((drawing) => res.send(drawing));
+  socketManager.getIo().emit("newdrawing", newDrawing);
 });
 
 //used to update images

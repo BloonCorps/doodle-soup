@@ -4,6 +4,8 @@ import "./Feed.css";
 import Post from "../modules/Post.js";
 import { get } from "../../utilities";
 
+import { socket } from "../../client-socket.js";
+
 class Feed extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +22,12 @@ class Feed extends Component {
       this.setState({works: worksArray.reverse()});
     });
     get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
+    
+    //Socket lets page update frequently whenever someone submits something
+    socket.on("newdrawing", (newDrawing) => {
+      //console.log("this works");
+      this.updatePage()
+    });
   }
 
   //for fast reloading when deleting
@@ -27,7 +35,6 @@ class Feed extends Component {
     get("/api/allworks").then((worksArray) => {
       this.setState({works: worksArray.reverse()});
     });
-    get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
   }
 
   render() {
