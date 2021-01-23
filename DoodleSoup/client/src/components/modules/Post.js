@@ -36,9 +36,10 @@ class Post extends Component {
               <p>Edit</p>
             </Link>
 
-            <Link to={`/feed/`} onClick = {this.deletePost} className="deletePost">
+            <Link to={`/account/${this.props.creator_id}`} onClick = {this.deletePost} className="deletePost">
               <p>Delete</p>
             </Link>
+
           </div>
 
           <img className="imgWorkFeed" src={this.props.pic}/>
