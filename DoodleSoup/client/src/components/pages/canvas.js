@@ -12,7 +12,6 @@ let myCanvas = null;
 let context = null;
 let tempPoints = [];
 let strokePaths = [];
-let tags = [];
 let verticalShift = 0;
 let horizontalShift = 0;
 
@@ -63,12 +62,23 @@ class Canvas extends Component {
             action: 'drawing',
             user: undefined, 
             imageId: this.props.imageId,
+            tags: []
         };
     };
 
+    updateTagging = () => {
+        let tempString = "";
+        console.log("tags" + this.state.tags)
+        this.state.tags.forEach(taggedPeople => tempString = tempString + taggedPeople + " | ");
+        console.log("string" + tempString)
+        document.getElementsByClassName("tagContent")[0].innerHTML= "| " + tempString
+    }
+    
+
     //Formats input into an array of names
     tagDecipher = () => {
-        let temp = document.querySelector('.tagCanvas').value
+        let temp = document.querySelector('.tagCanvas').value;
+        let tempTag = [];
         let currentName = "";
         [...temp].forEach(character => 
             {
@@ -76,15 +86,15 @@ class Canvas extends Component {
                     currentName = currentName.concat(character)
                 }
                 else {
-                    tags.push(currentName)
+                    tempTag.push(currentName)
                     currentName = ""
                 }
             }
         )
         if (currentName !== "") {
-            tags.push(currentName)
+            tempTag.push(currentName)
         }
-        console.log(tags)
+        this.setState({tags: [...tempTag]})
     }
 
     promptSubmit = () => {
@@ -288,7 +298,6 @@ class Canvas extends Component {
             let n = null;
             neighbors.forEach(n => agenda.push(n), visited.add(n))
         }
-        console.log(arrayIndex, newColor, colorToChange)
 
         context.putImageData(image, 0, 0);
         if (retracing === false) {
@@ -383,6 +392,17 @@ class Canvas extends Component {
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
+        console.log(this.state.tags)
+        if (document.getElementsByClassName("tagContent")[0] !== undefined) {
+            if (this.state.tags.length === 0) {
+                document.getElementsByClassName("tagContent")[0].innerHTML= "No Tags Yet"
+                document.getElementsByClassName("tagContent")[0].style.color = "rgba(128, 128, 128, 255)"
+            } else {
+                this.updateTagging()
+                document.getElementsByClassName("tagContent")[0].style.color = "rgba(0, 0, 0, 255)"
+            }
+        }
+
         return (
             <div>
                 <canvas className="canvas" onMouseDown={this.handleEvent} onMouseUp={this.handleEvent} onMouseMove={this.handleEvent}></canvas>
@@ -430,9 +450,13 @@ class Canvas extends Component {
                     <button className="techButton download" title="Download" onClick={this.downloadDrawing}> </button>
 
                     <div className="taggingFeature">
-                        <input className="tagCanvas" type="text" placeholder="Tag,your,friends! (No spaces after commas)" onSubmit={this.tagDecipher}></input>
+                        <input className="tagCanvas" type="text" placeholder="Tag,your,friends! (No spaces after commas)"></input>
                         {/*Button will be removed later */}
                         <button className="tagCanvasButton" onClick={this.tagDecipher}><p>Submit</p></button>
+                    </div>
+
+                    <div className="taggingFeature">
+                        <p className="taggedCanvas"> <p className="tagContent"></p> </p>
                     </div>
                 </div>
             </div>
