@@ -39,7 +39,6 @@ const downloadImage = (myCanvas) => {
 //Converts the canvas image to an URI
 const toURI = (myCanvas) => {
     const dataURI = myCanvas.toDataURL();
-    console.log(dataURI);
     return dataURI;
 }
 
@@ -59,9 +58,9 @@ class Canvas extends Component {
 
     updateTagging = () => {
         let tempString = "";
-        console.log("tags" + this.state.tags)
+        //console.log("tags" + this.state.tags)
         this.state.tags.forEach(taggedPeople => tempString = tempString + taggedPeople + " | ");
-        console.log("string" + tempString)
+        //console.log("string" + tempString)
         document.getElementsByClassName("tagContent")[0].innerHTML= "| " + tempString
     }
     
@@ -383,7 +382,6 @@ class Canvas extends Component {
     changeIndigo = () => {this.setState({strokeColor : "rgba(75, 0, 130, 255)"})}
 
     render() {
-        console.log(this.state.tags)
         if (document.getElementsByClassName("tagContent")[0] !== undefined) {
             if (this.state.tags.length === 0) {
                 document.getElementsByClassName("tagContent")[0].innerHTML= "No Tags Yet"
