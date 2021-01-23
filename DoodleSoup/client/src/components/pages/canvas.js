@@ -456,7 +456,7 @@ class Canvas extends Component {
                     </div>
 
                     <div className="taggingFeature">
-                        <p className="taggedCanvas"> <p className="tagContent"></p> </p>
+                        <div className="taggedCanvas"> <p className="tagContent"></p> </div>
                     </div>
                 </div>
             </div>
