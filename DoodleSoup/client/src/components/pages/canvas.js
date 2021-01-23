@@ -43,15 +43,6 @@ const toURI = (myCanvas) => {
     return dataURI;
 }
 
-const loadImage = (URI, myCanvas) => {
-    var image = URI;
-    var ctx = myCanvas.getContext("2d");
-
-    ctx.drawImage(
-        image, 0, 0
-    )
-}
-
 class Canvas extends Component {
     constructor(props) {
         super(props);
@@ -74,8 +65,7 @@ class Canvas extends Component {
         document.getElementsByClassName("tagContent")[0].innerHTML= "| " + tempString
     }
     
-
-    //Formats input into an array of names
+    //Parses input into an array of names
     tagDecipher = () => {
         let temp = document.querySelector('.tagCanvas').value;
         let tempTag = [];
@@ -100,7 +90,6 @@ class Canvas extends Component {
     promptSubmit = () => {
         document.querySelector('.popUp').style.display = 'flex';
     }
-
     closePromptSubmit = () => {
         document.querySelector('.popUp').style.display = 'none';
     }
@@ -116,9 +105,9 @@ class Canvas extends Component {
                     creator_id: this.props.userId,
                     source: canvasURI,
                     imageId: this.props.imageId,
+                    tags: this.state.tags,
             };
             post("/api/updateimage", body);
-
         } 
         //if (this.state.currentImage == 0) 
         else {
@@ -126,6 +115,7 @@ class Canvas extends Component {
                 creator_name: this.state.user.name,
                 creator_id: this.props.userId,
                 source: canvasURI,
+                tags: this.state.tags,
             };
             post("/api/work", body);
         }
@@ -163,6 +153,7 @@ class Canvas extends Component {
         else {
             get("/api/image", {imageId: this.props.imageId}).then((image) => {
             this.setState({currentImage: image});
+            this.setState({currentTags: image.tags})
             //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
             var img = new Image;
             img.src = image[0].source;

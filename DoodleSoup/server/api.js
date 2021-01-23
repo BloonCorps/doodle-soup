@@ -85,6 +85,7 @@ router.post("/work", (req, res) => {
     creator_name: req.body.creator_name,
     creator_id: req.body.creator_id, 
     source: req.body.source,
+    tags: req.body.tags,
   });
   newDrawing.save().then((drawing) => res.send(drawing));
   socketManager.getIo().emit("newdrawing", newDrawing);
@@ -94,6 +95,7 @@ router.post("/work", (req, res) => {
 router.post("/updateimage", (req, res) => {
   Drawing.findOne({_id: req.body.imageId}).then((drawing) => {
   drawing.source = req.body.source;
+  drawing.tags = req.body.tags;
   drawing.save()
   });
 });
