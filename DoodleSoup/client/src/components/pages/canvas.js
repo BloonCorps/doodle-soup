@@ -52,7 +52,7 @@ class Canvas extends Component {
             action: 'drawing',
             user: undefined, 
             imageId: this.props.imageId,
-            tags: []
+            tags: [],
         };
     };
 
@@ -99,6 +99,12 @@ class Canvas extends Component {
         let canvasURI = toURI(myCanvas);
 
         if (this.state.currentImage) {
+            if (this.state.tags.length == 0){
+                subTags = this.state.currentTags;
+            }
+            else {
+                subTags = this.state.tags;
+            }
             const body = {
                     creator_name: this.state.user.name,
                     creator_id: this.props.userId,
@@ -155,7 +161,7 @@ class Canvas extends Component {
             this.setState({currentTags: image.tags})
             //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
             var img = new Image;
-            img.src = image[0].source;
+            img.src = image.source;
             context.drawImage(img, 0, 0)
             }); 
         }
@@ -384,7 +390,12 @@ class Canvas extends Component {
     render() {
         if (document.getElementsByClassName("tagContent")[0] !== undefined) {
             if (this.state.tags.length === 0) {
-                document.getElementsByClassName("tagContent")[0].innerHTML= "No Tags Yet"
+                if (this.state.currentImage == 0){
+                    document.getElementsByClassName("tagContent")[0].innerHTML= "No Tags Yet"
+                } else {
+                    console.log(this.state.currentImage)
+                    document.getElementsByClassName("tagContent")[0].innerHTML= this.state.currentTags
+                }
                 document.getElementsByClassName("tagContent")[0].style.color = "rgba(128, 128, 128, 255)"
             } else {
                 this.updateTagging()

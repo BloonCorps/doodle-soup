@@ -59,7 +59,7 @@ router.get("/works", (req, res) => {
 
 //find image by Id
 router.get("/image", (req, res) => {      
-  Drawing.find({ _id: req.query.imageId}).then((drawings) => {
+  Drawing.findOne({ _id: req.query.imageId}).then((drawings) => {
     //technically only 1 drawing but i dont want to rename and break code
     res.send(drawings);
   });
