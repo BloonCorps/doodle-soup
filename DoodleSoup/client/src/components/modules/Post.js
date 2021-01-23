@@ -50,6 +50,8 @@ class Post extends Component {
         </div>)
 
     } else {
+      var tempTags = [];
+
       return (
         <div className="card"> 
           <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
@@ -60,7 +62,9 @@ class Post extends Component {
           <img className="imgWorkFeed" src={this.props.pic}/>
 
           <div className="taggedPost"> 
-          <p className="tagContent"> {this.props.tags} </p> 
+          <p className="tagContent"> 
+          {this.props.tags} 
+          </p> 
           </div>
 
         </div>

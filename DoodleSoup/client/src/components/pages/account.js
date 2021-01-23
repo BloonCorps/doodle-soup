@@ -16,10 +16,6 @@ class Account extends Component {
         };
     }
 
-    refreshPage = () => {
-        window.location.reload(false);
-    }
-
     componentDidMount() {
         get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
         // console.log(this.state.user)
@@ -29,11 +25,7 @@ class Account extends Component {
         });
     }
 
-    componentDidUpdate(prevprops) {
-        //prevprops from previous "page"
-        //helps remount a component
-        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
-
+    updatePage = () => {
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
             this.setState({works: worksArray});
         });
