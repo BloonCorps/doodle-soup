@@ -6,6 +6,7 @@ import NavBar from "./modules/NavBar.js";
 import Canvas from "./pages/canvas.js";
 import Title from "./pages/title.js";
 import Account from "./pages/account.js";
+import Tags from "./pages/tags";
 
 
 import "../utilities.css";
@@ -68,6 +69,7 @@ class App extends Component {
           {/* /account/:userId passes down userId as a prop */}
           <Account path="/account/:userId" handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
+          <Tags path="/tags/" userId={this.state.userId}/>
           </Router>
         </>
         }

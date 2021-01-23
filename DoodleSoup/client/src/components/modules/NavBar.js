@@ -28,6 +28,10 @@ class NavBar extends Component {
             Create
           </Link>
 
+          <Link to="/tags/" className="navButton">
+            Tags
+          </Link>
+
           <Link to={`/account/${this.props.userId}`} className="navButton">
             Profile
           </Link>
