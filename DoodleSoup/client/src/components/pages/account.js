@@ -57,22 +57,15 @@ class Account extends Component {
         }
 
         return (
-            <>
-            {/**Google logout button below*/}
-            <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={this.props.handleLogout}
-            onFailure={(err) => console.log(err)}/>
-            
-            {/**Displays the username */}
-            <div>
-                { (!this.state.user) ? <div> Loading! </div> : this.state.user.name}
-            </div>   
-            <div className="myWorks">
-                {worksList}
-            </div>
-           </>
+            <div className="accountPage">
+                {/**Displays the username */}
+                <div className="usernameAccount">
+                    { (!this.state.user) ? <div> Loading! </div> : this.state.user.name + "'s Works"}
+                </div>   
+                <div className="myWorks">
+                    {worksList}
+                </div>
+           </div>
         )
     }
 }
