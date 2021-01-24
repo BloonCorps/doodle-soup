@@ -20,6 +20,7 @@ class App extends Component {
     this.state = {
       userId: undefined,
       imageId: "new",
+      userName: undefined,
     };
   }
 
@@ -28,6 +29,7 @@ class App extends Component {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         this.setState({ userId: user._id });
+        this.setState({userName: user.name})
       }
     });
     
@@ -69,7 +71,11 @@ class App extends Component {
           {/* /account/:userId passes down userId as a prop */}
           <Account path="/account/:userId" handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
-          <Tags path="/tags/" userId={this.state.userId}/>
+
+          {console.log(this.state.userName)}
+
+          <Tags path="/tags/:userId" 
+          userName = {this.state.userName}/>
           </Router>
         </>
         }

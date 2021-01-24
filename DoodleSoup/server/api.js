@@ -65,17 +65,25 @@ router.get("/image", (req, res) => {
   });
 });
 
-//finds a certain post and deletes it
-router.post("/delete", (req, res) => {
-  Drawing.deleteOne({_id: req.body.imageId}).then((err) => {
-    console.log("Deletion executed");
-  });
-});
-
 //finds all works for display on feed page
 router.get("/allworks", (req, res) => {
   Drawing.find().then((drawings) => {
     res.send(drawings);
+  });
+});
+
+//Finds works with the same tags
+router.get("/tagged", (req, res) => {
+  console.log("attempted tags");
+  Drawing.find({tags: req.query.name}).then((drawings) => {
+    res.send(drawings);
+  });
+});
+
+//finds a certain post and deletes it
+router.post("/delete", (req, res) => {
+  Drawing.deleteOne({_id: req.body.imageId}).then((err) => {
+    console.log("Deletion executed");
   });
 });
 
@@ -93,6 +101,9 @@ router.post("/work", (req, res) => {
 
 //used to update images
 router.post("/updateimage", (req, res) => {
+  console.log("Update Attempt");
+  console.log(req.body.tags);
+
   Drawing.findOne({_id: req.body.imageId}).then((drawing) => {
   drawing.source = req.body.source;
   drawing.tags = req.body.tags;

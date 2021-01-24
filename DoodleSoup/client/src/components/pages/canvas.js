@@ -58,9 +58,7 @@ class Canvas extends Component {
 
     updateTagging = () => {
         let tempString = "";
-        //console.log("tags" + this.state.tags)
         this.state.tags.forEach(taggedPeople => tempString = tempString + taggedPeople + " | ");
-        //console.log("string" + tempString)
         document.getElementsByClassName("tagContent")[0].innerHTML= "| " + tempString
     }
     
@@ -96,15 +94,11 @@ class Canvas extends Component {
     //calls a function outside of React JS that is written
     //in javascript to save image
     submitDrawing = () => {
+
         let canvasURI = toURI(myCanvas);
 
-        if (this.state.currentImage) {
-            if (this.state.tags.length == 0){
-                subTags = this.state.currentTags;
-            }
-            else {
-                subTags = this.state.tags;
-            }
+        if (this.state.currentImage !== 0) {
+
             const body = {
                     creator_name: this.state.user.name,
                     creator_id: this.props.userId,
@@ -158,7 +152,7 @@ class Canvas extends Component {
         else {
             get("/api/image", {imageId: this.props.imageId}).then((image) => {
             this.setState({currentImage: image});
-            this.setState({currentTags: image.tags})
+            this.setState({tags: image.tags})
             //https://stackoverflow.com/questions/4773966/drawing-an-image-from-a-data-url-to-a-canvas
             var img = new Image;
             img.src = image.source;
@@ -393,7 +387,6 @@ class Canvas extends Component {
                 if (this.state.currentImage == 0){
                     document.getElementsByClassName("tagContent")[0].innerHTML= "No Tags Yet"
                 } else {
-                    console.log(this.state.currentImage)
                     document.getElementsByClassName("tagContent")[0].innerHTML= this.state.currentTags
                 }
                 document.getElementsByClassName("tagContent")[0].style.color = "rgba(128, 128, 128, 255)"

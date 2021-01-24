@@ -4,8 +4,6 @@ import "./account.css"
 import { get } from "../../utilities";
 import Post from "../modules/Post.js";
 
-const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
-
 class Account extends Component {
     constructor(props) {
         super(props);
@@ -23,13 +21,11 @@ class Account extends Component {
             this.setState({works: worksArray});
         });
     }
-
     updatePage = () => {
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
             this.setState({works: worksArray});
         });
     }
-
     render () {
         //profile will display works, and workslist is what we get from API
         let worksList = undefined;
@@ -46,7 +42,6 @@ class Account extends Component {
         } else {
             worksList = <div>You have no works</div>;
         }
-
         return (
             <div className="accountPage">
                 {/**Displays the username */}

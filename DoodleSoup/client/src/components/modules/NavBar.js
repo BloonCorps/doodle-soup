@@ -28,7 +28,7 @@ class NavBar extends Component {
             Create
           </Link>
 
-          <Link to="/tags/" className="navButton">
+          <Link to={`/tags/${this.props.userId}`} className="navButton">
             Tags
           </Link>
 
