@@ -20,7 +20,7 @@ class Post extends Component {
 }
 
   render() {
-    if (this.props.creator_id === this.props.userId) {
+    if (this.props.creator_id === this.props.viewerId) {
       return (
         //{this.props.creator_id}
         <div className="card"> 
