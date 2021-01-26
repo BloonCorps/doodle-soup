@@ -14,13 +14,21 @@ class Account extends Component {
     }
 
     componentDidMount() {
-        get(`/api/user`, {userid: this.props.userId }).then((user) => this.setState({ user: user }));
-        // console.log(this.state.user)
+        get("/api/whoami").then((user) => {
+            if (user._id) {
+              this.setState({user: user});
+              this.setState({userName: user.name})
+            }
+        });
 
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
             this.setState({works: worksArray});
         });
+
+        get("/api/user", {userid: this.props.userId }).then((workUser) => 
+        this.setState({workUser: workUser}))//.then(() => {console.log(this.state.workUser)});
     }
+
     updatePage = () => {
         get("/api/works", {userId: this.props.userId}).then((worksArray) => {
             this.setState({works: worksArray});
@@ -34,8 +42,11 @@ class Account extends Component {
         if (hasWorks) {
             //workObj is each work in this.state.works
             worksList = this.state.works.map((workObj) => (
-                <div className="spacing">
-                    <Post tags = {workObj.tags} userId = {this.state.user._id} posterId = {workObj.creator_id} updateFunction = {this.updatePage} key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
+                <div key= {workObj._id + "1337"}className="spacing">
+                    <Post key = {workObj._id} tags = {workObj.tags} viewerId = {this.state.user._id} 
+                    updateFunction = {this.updatePage} imageId = {workObj._id} 
+                    creator_id={workObj.creator_id} creator_name={workObj.creator_name} 
+                    pic={workObj.source}/>
                 </div>
             ));
 
@@ -46,7 +57,7 @@ class Account extends Component {
             <div className="accountPage">
                 {/**Displays the username */}
                 <div className="usernameAccount">
-                    { (!this.state.user) ? <div> Loading! </div> : this.state.user.name + "'s Works"}
+                    { (!this.state.workUser) ? <div> Loading! </div> : this.state.workUser.name + "'s Works"}
                 </div>   
                 <div className="myWorks">
                     {worksList}

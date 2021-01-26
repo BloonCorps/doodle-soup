@@ -24,6 +24,11 @@ class App extends Component {
     };
   }
 
+  //not used but kept for reference
+  refreshPage() {
+    window.location.reload(false); 
+  }
+
   componentDidMount() {
     get("/api/whoami").then((user) => {
       if (user._id) {
@@ -32,7 +37,6 @@ class App extends Component {
         this.setState({userName: user.name})
       }
     });
-    
   }
 
   handleLogin = (res) => {
@@ -50,6 +54,7 @@ class App extends Component {
   };
 
   render() {
+    
     return (
       <>
        {!this.state.userId ? 
@@ -71,9 +76,6 @@ class App extends Component {
           {/* /account/:userId passes down userId as a prop */}
           <Account path="/account/:userId" handleLogout={this.handleLogout}/>
           <Feed path="/feed/" userId={this.state.userId}/>
-
-          {console.log(this.state.userName)}
-
           <Tags path="/tags/:userId" 
           userName = {this.state.userName}/>
           </Router>

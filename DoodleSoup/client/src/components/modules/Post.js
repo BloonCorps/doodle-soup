@@ -22,7 +22,6 @@ class Post extends Component {
 }
 
   render() {
-    console.log(this.props.tags)
     tagContent = ""
     this.props.tags.forEach(tagName => tagContent = tagContent + " " + tagName + " |")
     if (tagContent === "") {
@@ -52,9 +51,7 @@ class Post extends Component {
             </Link>
 
           </div>
-
           <img className="imgWorkFeed" src={this.props.pic}/>
-
           <div className="taggedPost"> 
           <p className="tagContent"> {tagContent} </p> 
           </div>

@@ -25,7 +25,6 @@ class Feed extends Component {
     
     //Socket lets page update frequently whenever someone submits something
     socket.on("newdrawing", (newDrawing) => {
-      //console.log("this works");
       this.updatePage()
     });
   }
@@ -44,10 +43,12 @@ class Feed extends Component {
     if (hasWorks) {
           //workObj is each work in this.state.works
           worksList = this.state.works.map((workObj) => (
-            <div className="spacing" key = {workObj._id}>
-                <Post updateFunction = {this.updatePage} tags = {workObj.tags} 
+            <div key = {workObj._id + "1337"} className="spacing">
+                <Post 
+                updateFunction = {this.updatePage} tags = {workObj.tags} 
                 //userId = {this.props.userId} posterId = {workObj.creator_id} 
-                updateFunction = {this.updatePage} imageId = {workObj._id} creator_id={workObj.creator_id} creator_name={workObj.creator_name} pic={workObj.source}/>
+                key = {workObj._id} imageId = {workObj._id} creator_id={workObj.creator_id} 
+                creator_name={workObj.creator_name} pic={workObj.source}/>
             </div>
           ));
     } else {

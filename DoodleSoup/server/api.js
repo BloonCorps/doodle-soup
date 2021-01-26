@@ -75,7 +75,7 @@ router.get("/allworks", (req, res) => {
 //Finds works with the same tags
 router.get("/tagged", (req, res) => {
   console.log("attempted tags");
-  Drawing.find({tags: req.query.name}).then((drawings) => {
+  Drawing.find({tags: req.query.name, tags: " " + req.query.name}).then((drawings) => {
     res.send(drawings);
   });
 });
