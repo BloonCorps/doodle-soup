@@ -30,7 +30,10 @@ class Post extends Component {
       tagContent = "|" + tagContent;
     }
 
-    if (this.props.creator_id === this.props.userId) {
+    if (this.props.creator_id === this.props.viewerId) {
+
+           
+      console.log("Version A")
       return (
         //{this.props.creator_id}
         <div className="card"> 
@@ -38,9 +41,11 @@ class Post extends Component {
           <div className="header">
 
             <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeedwithButtons">
+            
             <p className="usernameContent">
               {this.props.creator_name}
             </p>
+
             </Link>
             <Link to={`/create/${this.props.imageId}`} className="editPost">
               <p>Edit</p>
@@ -61,13 +66,17 @@ class Post extends Component {
     } else {
       var tempTags = [];
 
+      console.log("Version B");
+
       return (
         <div className="card"> 
+
           <Link to={`/account/${this.props.creator_id}`} className="usernameWorkFeed">
             <p className="usernameContent">
               {this.props.creator_name}
             </p>
           </Link>
+
           <img className="imgWorkFeed" src={this.props.pic}/>
 
           <div className="taggedPost"> 
