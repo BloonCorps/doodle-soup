@@ -1,9 +1,10 @@
 .card {
+    box-shadow: 12px 12px rgb(200, 203, 248);
     display: flex;
     flex-direction: column;
     justify-content: center;
     /* margin-top: 2%; */
-    background-color: #8DCFE9;
+    background-color: #6fc1ff;
     /* width : 70vw;
     height: 60vw; */
     /* position: absolute;
@@ -48,7 +49,13 @@
 .usernameContent {
     font-family:'Verdana', Sans-serif;
     font-size: 32px;
-    color:rgb(21, 34, 219);
+    color:rgb(27, 0, 202);
+}
+
+.usernameContent:hover {
+    text-decoration: underline;
+    color:rgb(19, 1, 121);
+    transition: 0.25s;
 }
 
 .header {
@@ -108,7 +115,7 @@
     align-items: center;
 
     border-radius: 8px;
-    border: 4px solid black;
+    border: 4px solid #6fc1ff;
     background-color:white;
 
     font-size: 16px;

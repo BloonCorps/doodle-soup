@@ -151,7 +151,7 @@
     display: flex;
 
     border-radius: 8px;
-    border: 4px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.72);
     background-color:white;
 
     width: 900px;
@@ -165,7 +165,7 @@
     display: flex;
 
     border-radius: 8px;
-    border: 4px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.72);
     background-color:white;
 
     width: 80px;
@@ -181,6 +181,7 @@
 }
 
 .taggingFeature {
+    margin-top: 1%;
     display: inline-flex;
 }
 
@@ -190,7 +191,7 @@
     align-items: center;
 
     border-radius: 8px;
-    border: 4px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.72);
     background-color:white;
 
     width: 1000px;

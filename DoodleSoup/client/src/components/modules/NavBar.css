@@ -5,9 +5,12 @@ html{
 .navContainer{
     display: flex;
     justify-content: space-between;
-    background-color: #8DCFE9;
+    background-color: #5e8cffc7;
     height: 70px;
     width: 100vw;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px -5px   rgba(16, 52, 106, 0.7);
 }
 
 .navTitle{
@@ -34,4 +37,9 @@ html{
   opacity: 0.8;
   text-decoration: none;
   margin-right: 32px;
+}
+
+.navButton:hover {
+    color: rgb(3, 0, 181);
+    transition: .25s;
 }
