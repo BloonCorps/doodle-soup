@@ -41,9 +41,7 @@ class Post extends Component {
             </Link>
 
           </div>
-
           <img className="imgWorkFeed" src={this.props.pic}/>
-
           <div className="taggedPost"> 
           <p className="tagContent"> {this.props.tags} </p> 
           </div>

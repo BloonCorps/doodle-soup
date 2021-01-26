@@ -26,7 +26,7 @@ class Account extends Component {
         });
 
         get("/api/user", {userid: this.props.userId }).then((workUser) => 
-        this.setState({workUser: workUser})).then(() => {console.log(this.state.workUser)});
+        this.setState({workUser: workUser}))//.then(() => {console.log(this.state.workUser)});
     }
 
     updatePage = () => {
@@ -42,9 +42,9 @@ class Account extends Component {
         if (hasWorks) {
             //workObj is each work in this.state.works
             worksList = this.state.works.map((workObj) => (
-                <div className="spacing">
-                    <Post tags = {workObj.tags} viewerId = {this.state.user._id} 
-                    updateFunction = {this.updatePage} key = {workObj._id} imageId = {workObj._id} 
+                <div key= {workObj._id + "1337"}className="spacing">
+                    <Post key = {workObj._id} tags = {workObj.tags} viewerId = {this.state.user._id} 
+                    updateFunction = {this.updatePage} imageId = {workObj._id} 
                     creator_id={workObj.creator_id} creator_name={workObj.creator_name} 
                     pic={workObj.source}/>
                 </div>
