@@ -6,6 +6,8 @@ import { post, get } from "../../utilities";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 const GOOGLE_CLIENT_ID = "666170878713-705kglliuqe3jr4l0mha34ei8d862qud.apps.googleusercontent.com";
 
+let tagContent = "";
+
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,15 @@ class Post extends Component {
 }
 
   render() {
-    if (this.props.creator_id === this.props.viewerId) {
+    tagContent = ""
+    this.props.tags.forEach(tagName => tagContent = tagContent + " " + tagName + " |")
+    if (tagContent === "") {
+      tagContent = "No tags"
+    } else {
+      tagContent = "|" + tagContent;
+    }
+
+    if (this.props.creator_id === this.props.userId) {
       return (
         //{this.props.creator_id}
         <div className="card"> 
@@ -43,7 +53,7 @@ class Post extends Component {
           </div>
           <img className="imgWorkFeed" src={this.props.pic}/>
           <div className="taggedPost"> 
-          <p className="tagContent"> {this.props.tags} </p> 
+          <p className="tagContent"> {tagContent} </p> 
           </div>
           
         </div>)
@@ -62,7 +72,7 @@ class Post extends Component {
 
           <div className="taggedPost"> 
           <p className="tagContent"> 
-          {this.props.tags} 
+          {tagContent} 
           </p> 
           </div>
 
